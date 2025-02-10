@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First-Gen Success Hub</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(90deg, #1e1e1e, #3a1c71);
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(90deg, #ffcc00, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 3s infinite alternate;
+        }
+        @keyframes glow {
+            0% { text-shadow: 0px 0px 10px #ffcc00; }
+            100% { text-shadow: 0px 0px 20px #ff00ff; }
+        }
+        .glowing-btn {
+            background: linear-gradient(90deg, #ffcc00, #ff00ff);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.8);
+        }
+        .glowing-btn:hover {
+            box-shadow: 0px 0px 20px rgba(255, 0, 255, 0.8);
+            transform: scale(1.05);
+        }
+        .advice-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            font-size: 1.2rem;
+            width: 60%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to First-Gen Success Hub</h1>
+        <button class="glowing-btn" onclick="generateAdvice()">Get a Career Tip</button>
+        <div class="advice-box" id="adviceBox">Click the button for advice!</div>
+    </div>
+
+    <script>
+        const adviceList = [
+            "Network with professionals in your field!",
+            "Create a LinkedIn profile and keep it updated.",
+            "Seek internships early to gain experience.",
+            "Find a mentor who can guide you through your career.",
+            "Stay proactive and attend career fairs.",
+            "Learn how to market yourself effectively.",
+            "Build soft skills like communication and teamwork.",
+            "Always follow up after job interviews with a thank-you email."
+        ];
+
+        function generateAdvice() {
+            const randomIndex = Math.floor(Math.random() * adviceList.length);
+            document.getElementById('adviceBox').textContent = adviceList[randomIndex];
+        }
+    </script>
+</body>
+</html>
