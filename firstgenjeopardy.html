@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First-Gen Excellence Jeopardy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --first-gen-blue: #003366;
+            --first-gen-light: #e6f0ff;
+            --unt-green: #00853e;
+            --jeopardy-yellow: #ffcc00;
+        }
+        body {
+            background-color: #f0f4f8;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .jeopardy-header {
+            font-family: 'Libre+Baskerville', serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
+        .category-card {
+            background-color: var(--first-gen-blue);
+            color: white;
+            padding: 15px 5px;
+            text-align: center;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 90px;
+            border-bottom: 4px solid #001a33;
+            text-transform: uppercase;
+        }
+        .question-card {
+            aspect-ratio: 4 / 3;
+            background-color: #060ce9;
+            color: var(--jeopardy-yellow);
+            font-size: 2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .question-card:hover {
+            transform: scale(1.03);
+            filter: brightness(1.2);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+        }
+        .question-card.visited {
+            background-color: #2a2e5a;
+            color: rgba(255, 204, 0, 0.2);
+            cursor: default;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background: #060ce9;
+            width: 100%;
+            max-width: 900px;
+            min-height: 450px;
+            border: 6px solid white;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 50px;
+            color: white;
+            position: relative;
+        }
+        .answer-text {
+            font-family: 'Libre+Baskerville', serif;
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 2.5rem;
+            text-transform: uppercase;
+        }
+        .correct-reveal {
+            font-size: 1.8rem;
+            color: var(--jeopardy-yellow);
+            font-weight: 700;
+            display: none;
+            margin-top: 20px;
+        }
+        .btn-reveal {
+            background: white;
+            color: #060ce9;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-transform: uppercase;
+        }
+        .btn-reveal:hover {
+            transform: scale(1.05);
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-10">
+            <h1 class="jeopardy-header text-4xl md:text-6xl text-blue-900 mb-2">First-Gen Excellence</h1>
+            <p class="text-gray-500 font-bold tracking-widest uppercase text-xs">Celebrating & Navigating the First-Gen Journey</p>
+        </header>
+
+        <div class="grid-container" id="game-board">
+            <!-- Categories Row -->
+            <div class="category-card">FIRST IN BUSINESS (FIB)</div>
+            <div class="category-card">COLLEGE LINGO</div>
+            <div class="category-card">HIDDEN CURRICULUM</div>
+            <div class="category-card">UNT RESOURCES</div>
+            <div class="category-card">CELEBRATING SUCCESS</div>
+
+            <!-- Questions generated by JS -->
+        </div>
+
+        <div class="mt-12 text-center text-gray-400 text-sm">
+            Interactive Learning Tool &bull; No Score Keeping Required
+        </div>
+    </div>
+
+    <!-- Modal for Question Display -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div id="modal-answer" class="answer-text">Answer goes here...</div>
+            <button id="reveal-btn" class="btn-reveal" onclick="revealQuestion()">Show Question</button>
+            <div id="modal-question" class="correct-reveal">What is...</div>
+        </div>
+    </div>
+
+    <script>
+        const gameData = [
+            // First in Business
+            { cat: 0, val: 200, a: "This is the primary way FiB connects new students with upperclassmen mentors.", q: "What is Peer Mentoring?" },
+            { cat: 0, val: 400, a: "FiB offers these to help alleviate the financial burden of college for first-gen students.", q: "What are Scholarships?" },
+            { cat: 0, val: 600, a: "These regular FiB gatherings allow students to network with RCOB faculty and staff.", q: "What are Mixers or Networking Events?" },
+            { cat: 0, val: 800, a: "FiB workshops often cover this 2-word professional document used for job hunting.", q: "What is a Resume?" },
+            { cat: 0, val: 1000, a: "FiB is housed within this UNT College.", q: "What is the G. Brint Ryan College of Business?" },
+
+            // College Lingo
+            { cat: 1, val: 200, a: "This document is the 'contract' for a course, listing assignments, dates, and rules.", q: "What is a Syllabus?" },
+            { cat: 1, val: 400, a: "Designated times when professors are in their offices to help students.", q: "What are Office Hours?" },
+            { cat: 1, val: 600, a: "A student's 'secondary' area of study alongside their major.", q: "What is a Minor?" },
+            { cat: 1, val: 800, a: "A course you must take and pass BEFORE you can enroll in a more advanced course.", q: "What is a Prerequisite?" },
+            { cat: 1, val: 1000, a: "Latin for 'Grand Graduation,' this ceremony is where you walk across the stage.", q: "What is Commencement?" },
+
+            // Hidden Curriculum
+            { cat: 2, val: 200, a: "The term for 'unspoken' rules and social norms that successful students use to navigate college.", q: "What is the Hidden Curriculum?" },
+            { cat: 2, val: 400, a: "The internal feeling that you don't belong or aren't as capable as your peers.", q: "What is Imposter Syndrome?" },
+            { cat: 2, val: 600, a: "Actively reaching out to professionals to learn about their career paths.", q: "What is Informational Interviewing?" },
+            { cat: 2, val: 800, a: "The habit of keeping a digital presence (like LinkedIn) up to date before you need a job.", q: "What is Personal Branding?" },
+            { cat: 2, val: 1000, a: "The skill of balancing course load, self-care, and professional development.", q: "What is Holistic Time Management?" },
+
+            // UNT Resources
+            { cat: 3, val: 200, a: "This UNT center provides free tutoring and supplemental instruction for tough classes.", q: "What is the Learning Center?" },
+            { cat: 3, val: 400, a: "The specific campus office that assists students with FAFSA and grants.", q: "What is Student Financial Aid and Scholarships?" },
+            { cat: 3, val: 600, a: "UNT's online portal where you register for classes and view your grades.", q: "What is MyUNT?" },
+            { cat: 3, val: 800, a: "The campus department that offers mental health counseling and workshops.", q: "What is Counseling and Testing Services (CTS)?" },
+            { cat: 3, val: 1000, a: "This office manages the professional 'suit closet' for students needing interview clothes.", q: "What is the Career Center?" },
+
+            // Celebrating Success
+            { cat: 4, val: 200, a: "National First-Generation College Celebration Day is celebrated in this month.", q: "What is November?" },
+            { cat: 4, val: 400, a: "This percentage of UNT students identify as first-generation.", q: "What is over 40%?" },
+            { cat: 4, val: 600, a: "A first-gen graduate is often called this for their family's educational history.", q: "What is a Trailblazer?" },
+            { cat: 4, val: 800, a: "The specific honor society for first-generation college students.", q: "What is Alpha Alpha Alpha (Tri-Alpha)?" },
+            { cat: 4, val: 1000, a: "This is the 'superpower' first-gen students possess from overcoming obstacles.", q: "What is Resilience (or Grit)?" }
+        ];
+
+        function initBoard() {
+            const board = document.getElementById('game-board');
+            for (let v = 200; v <= 1000; v += 200) {
+                for (let c = 0; c < 5; c++) {
+                    const item = gameData.find(d => d.cat === c && d.val === v);
+                    const card = document.createElement('div');
+                    card.className = 'question-card';
+                    card.innerText = `$${v}`;
+                    card.onclick = () => openQuestion(item, card);
+                    board.appendChild(card);
+                }
+            }
+        }
+
+        function openQuestion(data, element) {
+            if (element.classList.contains('visited')) return;
+            element.classList.add('visited');
+            document.getElementById('modal-answer').innerText = data.a;
+            document.getElementById('modal-question').innerText = data.q;
+            document.getElementById('modal-question').style.display = 'none';
+            document.getElementById('reveal-btn').style.display = 'block';
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function revealQuestion() {
+            document.getElementById('modal-question').style.display = 'block';
+            document.getElementById('reveal-btn').style.display = 'none';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('modal')) {
+                closeModal();
+            }
+        }
+
+        initBoard();
+    </script>
+</body>
+</html>
