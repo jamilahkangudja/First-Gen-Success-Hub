@@ -21,7 +21,6 @@
             --border-color: #e2e8f0;
         }
 
-        /* Dark Mode Support & High Contrast Accessibility */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-primary: #0a0a0a;
@@ -29,7 +28,7 @@
                 --text-main: #f8fafc;
                 --text-muted: #cbd5e1;
                 --border-color: #262626;
-                --unt-green: #10b981; /* Brighter green for dark mode visibility */
+                --unt-green: #10b981;
             }
         }
 
@@ -65,7 +64,6 @@
             .logic-gate { background: rgba(255, 255, 255, 0.05); }
         }
 
-        /* Tooltip Architecture */
         .id-tooltip {
             position: relative;
             cursor: help;
@@ -98,7 +96,6 @@
             bottom: 125%;
         }
 
-        /* Quiz UI */
         .quiz-option {
             transition: all 0.2s ease;
             cursor: pointer;
@@ -123,8 +120,14 @@
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
                 </div>
                 <div>
-                    <h1 class="font-extrabold text-lg tracking-tight leading-none">FIRST IN BUSINESS</h1>
-                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mt-1">Program Administrator Framework</p>
+                    <h1 class="font-extrabold text-lg tracking-tight leading-none uppercase">
+                        <span class="lang-en">First in Business</span>
+                        <span class="lang-es">Primero en Negocios</span>
+                    </h1>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mt-1">
+                        <span class="lang-en">Program Administrator Framework</span>
+                        <span class="lang-es">Marco del Administrador del Programa</span>
+                    </p>
                 </div>
             </div>
             <div class="flex gap-2 bg-slate-100 dark:bg-neutral-900 p-1 rounded-xl">
@@ -142,90 +145,133 @@
                 <span class="lang-es">La <span class="text-unt-green">Arquitectura de Fondos</span> para Académicos</span>
             </h2>
             <p class="text-xl text-muted font-medium max-w-3xl leading-relaxed">
-                As your Program Administrator, I have designed this framework to demystify the institutional barriers often faced by first-generation students. Funding your degree is a strategic operation.
+                <span class="lang-en">As your Program Administrator, I have designed this framework to demystify the institutional barriers often faced by first-generation students. Funding your degree is a strategic operation.</span>
+                <span class="lang-es">Como Administrador de su Programa, he diseñado este marco para desmitificar las barreras institucionales que a menudo enfrentan los estudiantes de primera generación. Financiar su título es una operación estratégica.</span>
             </p>
         </div>
     </header>
 
     <main class="container mx-auto px-6 py-16 max-w-6xl">
         
-        <!-- Module: The Student Journey -->
+        <!-- Module 01: Student Journey -->
         <section class="mb-24">
             <h3 class="text-2xl font-black mb-10 flex items-center gap-3">
                 <span class="w-10 h-10 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black flex items-center justify-center text-sm">01</span>
-                The Student Lifecycle Journey
+                <span class="lang-en">The Student Lifecycle Journey</span>
+                <span class="lang-es">El Ciclo de Vida del Estudiante</span>
             </h3>
             
             <div class="grid md:grid-cols-2 gap-8">
                 <!-- Freshman Node -->
                 <div class="p-8 rounded-[2rem] border border-border-color bg-card-bg">
                     <div class="flex items-center gap-3 mb-6">
-                        <div class="px-3 py-1 rounded-full bg-unt-green/20 text-unt-green font-bold text-[10px] uppercase">Incoming Freshmen</div>
+                        <div class="px-3 py-1 rounded-full bg-unt-green/20 text-unt-green font-bold text-[10px] uppercase">
+                            <span class="lang-en">Incoming Freshmen</span>
+                            <span class="lang-es">Estudiantes de Primer Año</span>
+                        </div>
                     </div>
-                    <h4 class="text-xl font-bold mb-4">Navigating the Portal</h4>
-                    <p class="text-sm text-muted mb-6">Your first semester is high-risk. You must set up your <strong>EUID</strong> and <strong>Duo MFA</strong> immediately to access the "To-Do" list in MyUNT. Check for "Verification" flags—failing to resolve these by August will cancel your initial disbursement.</p>
+                    <h4 class="text-xl font-bold mb-4">
+                        <span class="lang-en">Navigating the Portal</span>
+                        <span class="lang-es">Navegando el Portal</span>
+                    </h4>
+                    <p class="text-sm text-muted mb-6">
+                        <span class="lang-en">Your first semester is high-risk. You must set up your <strong>EUID</strong> and <strong>Duo MFA</strong> immediately to access the "To-Do" list in MyUNT. Check for "Verification" flags—failing to resolve these by August will cancel your initial disbursement.</span>
+                        <span class="lang-es">Su primer semestre es de alto riesgo. Debe configurar su <strong>EUID</strong> y <strong>Duo MFA</strong> de inmediato para acceder a la lista de tareas en MyUNT. Revise si hay banderas de "Verificación"—no resolverlas para agosto cancelará su desembolso inicial.</span>
+                    </p>
                     <ul class="text-xs space-y-2 font-semibold">
-                        <li class="flex items-center gap-2">✓ Complete Eagle Scholarship Portal</li>
-                        <li class="flex items-center gap-2">✓ Monitor "Task" Tile in MyUNT</li>
-                        <li class="flex items-center gap-2">✓ Confirm "Census Date" on Academic Calendar</li>
+                        <li class="flex items-center gap-2">✓ <span class="lang-en">Complete Eagle Scholarship Portal</span><span class="lang-es">Completar Eagle Scholarship Portal</span></li>
+                        <li class="flex items-center gap-2">✓ <span class="lang-en">Monitor "Task" Tile in MyUNT</span><span class="lang-es">Monitorear el recuadro "Task" en MyUNT</span></li>
+                        <li class="flex items-center gap-2">✓ <span class="lang-en">Confirm "Census Date" on Calendar</span><span class="lang-es">Confirmar "Census Date" en el Calendario</span></li>
                     </ul>
                 </div>
 
                 <!-- Continuing/Transfer Node -->
                 <div class="p-8 rounded-[2rem] border border-border-color bg-card-bg">
                     <div class="flex items-center gap-3 mb-6">
-                        <div class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-500 font-bold text-[10px] uppercase">Continuing & Transfer</div>
+                        <div class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-500 font-bold text-[10px] uppercase">
+                            <span class="lang-en">Continuing & Transfer</span>
+                            <span class="lang-es">Continuos y Transferencia</span>
+                        </div>
                     </div>
-                    <h4 class="text-xl font-bold mb-4">Renewal & Transfer Credit</h4>
-                    <p class="text-sm text-muted mb-6">Continuing students must re-apply for scholarships <strong>every year</strong> starting Sept 1st. Transfer students: ensure your final transcripts are received; otherwise, your TEXAS Grant or merit aid won't trigger for the next term.</p>
+                    <h4 class="text-xl font-bold mb-4">
+                        <span class="lang-en">Renewal & Transfer Credit</span>
+                        <span class="lang-es">Renovación y Crédito de Transferencia</span>
+                    </h4>
+                    <p class="text-sm text-muted mb-6">
+                        <span class="lang-en">Continuing students must re-apply for scholarships <strong>every year</strong> starting Sept 1st. Transfer students: ensure your final transcripts are received; otherwise, your TEXAS Grant or merit aid won't trigger.</span>
+                        <span class="lang-es">Estudiantes continuos deben volver a solicitar becas <strong>cada año</strong> desde el 1 de sept. Estudiantes de transferencia: aseguren que se reciban sus expedientes finales; si no, su TEXAS Grant o beca de mérito no se activará.</span>
+                    </p>
                     <ul class="text-xs space-y-2 font-semibold">
-                        <li class="flex items-center gap-2">✓ Maintain 2.0+ GPA for SAP</li>
-                        <li class="flex items-center gap-2">✓ Complete 30 hours per year (TEXAS Grant)</li>
-                        <li class="flex items-center gap-2">✓ Update FAFSA annually in October</li>
+                        <li class="flex items-center gap-2">✓ <span class="lang-en">Maintain 2.0+ GPA for SAP</span><span class="lang-es">Mantener GPA de 2.0+ para SAP</span></li>
+                        <li class="flex items-center gap-2">✓ <span class="lang-en">Complete 30 hours per year</span><span class="lang-es">Completar 30 horas por año</span></li>
+                        <li class="flex items-center gap-2">✓ <span class="lang-en">Update FAFSA annually in October</span><span class="lang-es">Actualizar FAFSA anualmente en octubre</span></li>
                     </ul>
                 </div>
             </div>
         </section>
 
-        <!-- Module 2: The Hidden Curriculum -->
+        <!-- Module 02: Financial Governance -->
         <section class="mb-24">
             <div class="flex items-center gap-4 mb-12">
                 <span class="bg-unt-green text-white px-4 py-1 rounded-lg font-mono text-xs font-bold">MOD 02</span>
-                <h3 class="text-3xl font-black">Financial Governance</h3>
+                <h3 class="text-3xl font-black">
+                    <span class="lang-en">Financial Governance</span>
+                    <span class="lang-es">Gobernanza Financiera</span>
+                </h3>
             </div>
 
             <div class="grid lg:grid-cols-3 gap-8">
                 <div class="scaffold-card p-8">
-                    <h4 class="font-extrabold text-xl mb-4">Verification Audits</h4>
+                    <h4 class="font-extrabold text-xl mb-4">
+                        <span class="lang-en">Verification Audits</span>
+                        <span class="lang-es">Auditorías de Verificación</span>
+                    </h4>
                     <p class="text-muted text-sm mb-6">
-                        If flagged for <span class="id-tooltip">Verification<span class="id-tooltip-content">An audit confirming your FAFSA/TASFA data. You must provide tax transcripts to MyUNT.</span></span>, your aid is frozen. Freshmen often miss this email because it goes to their UNT email, not personal Gmail.
+                        <span class="lang-en">If flagged for <span class="id-tooltip">Verification<span class="id-tooltip-content">An audit confirming your FAFSA/TASFA data. You must provide tax transcripts to MyUNT.</span></span>, your aid is frozen. Freshmen often miss this email because it goes to their UNT email.</span>
+                        <span class="lang-es">Si es marcado para <span class="id-tooltip">Verificación<span class="id-tooltip-content">Una auditoría que confirma sus datos de FAFSA/TASFA. Debe proporcionar transcripciones de impuestos a MyUNT.</span></span>, su ayuda se congela. Los de primer año suelen perder este correo porque llega a su email de UNT.</span>
                     </p>
                     <div class="logic-gate text-xs">
-                        <p class="font-bold mb-2">The TASFA Note</p>
-                        <p class="text-muted">TASFA students must mail or hand-deliver documents. Digital submission is not currently available for state-only aid.</p>
+                        <p class="font-bold mb-2 uppercase tracking-wider text-unt-green">
+                            <span class="lang-en">The TASFA Note</span><span class="lang-es">Nota sobre TASFA</span>
+                        </p>
+                        <p class="text-muted">
+                            <span class="lang-en">TASFA students must mail or hand-deliver documents. Digital submission is not currently available for state-only aid.</span>
+                            <span class="lang-es">Estudiantes de TASFA deben enviar por correo o entregar en persona los documentos. El envío digital no está disponible para ayuda estatal.</span>
+                        </p>
                     </div>
                 </div>
 
                 <div class="scaffold-card p-8">
-                    <h4 class="font-extrabold text-xl mb-4 text-slate-900 dark:text-white">Contractual Acceptance</h4>
+                    <h4 class="font-extrabold text-xl mb-4">
+                        <span class="lang-en">Contractual Acceptance</span>
+                        <span class="lang-es">Aceptación Contractual</span>
+                    </h4>
                     <p class="text-muted text-sm mb-6">
-                        Aid is merely an <strong>offer</strong> until you sign the portal.
+                        <span class="lang-en">Aid is merely an <strong>offer</strong> until you sign the portal.</span>
+                        <span class="lang-es">La ayuda es solo una <strong>oferta</strong> hasta que firme en el portal.</span>
                     </p>
                     <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border border-border-color shadow-sm">
                         <ul class="text-xs space-y-3 font-medium">
-                            <li>1. Go to MyUNT > Financial Aid.</li>
-                            <li>2. Click "Accept/Decline" for 2024.</li>
-                            <li>3. Review Loan Interest Rates first.</li>
+                            <li>1. <span class="lang-en">Go to MyUNT > Financial Aid</span><span class="lang-es">Vaya a MyUNT > Ayuda Financiera</span></li>
+                            <li>2. <span class="lang-en">Click "Accept/Decline"</span><span class="lang-es">Click en "Aceptar/Rechazar"</span></li>
+                            <li>3. <span class="lang-en">Review Loan Interest Rates</span><span class="lang-es">Revise las tasas de interés</span></li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="scaffold-card p-8">
-                    <h4 class="font-extrabold text-xl mb-4">The "SAP" Barrier</h4>
+                    <h4 class="font-extrabold text-xl mb-4">
+                        <span class="lang-en">The "SAP" Barrier</span>
+                        <span class="lang-es">La Barrera "SAP"</span>
+                    </h4>
                     <p class="text-muted text-sm mb-6">
-                        <span class="id-tooltip">Satisfactory Progress<span class="id-tooltip-content">2.0 GPA + 67% Completion Rate.</span></span> is the law. Transfer students: your transfer GPA counts toward your first year SAP check at UNT.
+                        <span class="lang-en"><span class="id-tooltip">Satisfactory Progress<span class="id-tooltip-content">2.0 GPA + 67% Completion Rate.</span></span> is the law. Transfer students: your transfer GPA counts toward your check.</span>
+                        <span class="lang-es"><span class="id-tooltip">Progreso Satisfactorio<span class="id-tooltip-content">GPA de 2.0 + Tasa de finalización del 67%.</span></span> es la ley. Estudiantes de transferencia: su GPA de origen cuenta para su revisión.</span>
                     </p>
-                    <p class="text-xs font-bold text-error-red">Dropping past the Census Date counts as a "Failed Attempt" in the 67% ratio calculation.</p>
+                    <p class="text-xs font-bold text-error-red">
+                        <span class="lang-en">Dropping past the Census Date counts as a "Failed Attempt" in calculations.</span>
+                        <span class="lang-es">Dar de baja clases después de la "Census Date" cuenta como un "Intento Fallido" en los cálculos.</span>
+                    </p>
                 </div>
             </div>
         </section>
@@ -235,42 +281,71 @@
             <div>
                 <h3 class="text-2xl font-black mb-8 flex items-center gap-3">
                     <span class="w-8 h-8 rounded-full bg-unt-green text-white flex items-center justify-center text-sm">!</span>
-                    Advanced Literacy
+                    <span class="lang-en">Advanced Literacy</span><span class="lang-es">Alfabetización Avanzada</span>
                 </h3>
                 <div class="space-y-6">
                     <div class="p-6 rounded-2xl border border-border-color bg-card-bg">
-                        <h5 class="font-bold mb-2">Refunds are not "Gifts"</h5>
+                        <h5 class="font-bold mb-2">
+                            <span class="lang-en">Refunds are not "Gifts"</span><span class="lang-es">Los reembolsos no son "Regalos"</span>
+                        </h5>
                         <p class="text-sm text-muted leading-relaxed">
-                            A refund is the surplus of your aid after tuition. If your aid includes loans, that "refund" check is accruing interest the moment it hits your bank account.
+                            <span class="lang-en">A refund is the surplus of your aid after tuition. If your aid includes loans, that "refund" check is accruing interest immediately.</span>
+                            <span class="lang-es">Un reembolso es el excedente de su ayuda tras la matrícula. Si su ayuda incluye préstamos, ese cheque está acumulando intereses de inmediato.</span>
                         </p>
                     </div>
                     <div class="p-6 rounded-2xl border border-border-color bg-card-bg">
-                        <h5 class="font-bold mb-2">Parental Non-Filer Status</h5>
+                        <h5 class="font-bold mb-2">
+                            <span class="lang-en">Parental Non-Filer Status</span><span class="lang-es">Estado de No Declaración de los Padres</span>
+                        </h5>
                         <p class="text-sm text-muted leading-relaxed">
-                            If parents didn't file taxes, don't leave the field blank. Submit the "Parent Non-Filer Statement" to the financial aid portal.
+                            <span class="lang-en">If parents didn't file taxes, submit the "Parent Non-Filer Statement" to the financial aid portal.</span>
+                            <span class="lang-es">Si sus padres no declararon impuestos, envíe la "Declaración de No Contribuyente" al portal de ayuda financiera.</span>
                         </p>
                     </div>
                 </div>
             </div>
 
             <div class="bg-slate-950 rounded-[2.5rem] p-10 text-white shadow-2xl">
-                <h3 class="text-2xl font-black mb-4">Competency Quiz</h3>
-                <p class="text-slate-400 text-sm mb-8">Scenario-based learning for the Business Scholar.</p>
+                <h3 class="text-2xl font-black mb-4">
+                    <span class="lang-en">Competency Quiz</span><span class="lang-es">Examen de Competencia</span>
+                </h3>
+                <p class="text-slate-400 text-sm mb-8">
+                    <span class="lang-en">Scenario-based learning for the Business Scholar.</span>
+                    <span class="lang-es">Aprendizaje basado en escenarios para el Académico de Negocios.</span>
+                </p>
                 
                 <div class="space-y-10">
                     <div class="quiz-item" data-q="1">
-                        <p class="text-sm font-bold mb-4">Scenario: You are a continuing student. When should you re-apply for departmental scholarships?</p>
+                        <p class="text-sm font-bold mb-4">
+                            <span class="lang-en">Scenario: You are a continuing student. When should you re-apply for departmental scholarships?</span>
+                            <span class="lang-es">Escenario: Eres un estudiante continuo. ¿Cuándo debes volver a solicitar las becas departamentales?</span>
+                        </p>
                         <div class="grid gap-3">
-                            <div onclick="submitQuiz(1, 0, true)" class="quiz-option p-4 rounded-xl text-xs font-bold">Every September 1st for the following year.</div>
-                            <div onclick="submitQuiz(1, 1, false)" class="quiz-option p-4 rounded-xl text-xs font-bold">Only once when I am a freshman.</div>
+                            <div onclick="submitQuiz(1, 0, true)" class="quiz-option p-4 rounded-xl text-xs font-bold">
+                                <span class="lang-en">Every September 1st for the following year.</span>
+                                <span class="lang-es">Cada 1 de septiembre para el año siguiente.</span>
+                            </div>
+                            <div onclick="submitQuiz(1, 1, false)" class="quiz-option p-4 rounded-xl text-xs font-bold">
+                                <span class="lang-en">Only once when I am a freshman.</span>
+                                <span class="lang-es">Solo una vez cuando soy estudiante de primer año.</span>
+                            </div>
                         </div>
                         <p id="f-1" class="mt-4 text-[11px] font-bold hidden"></p>
                     </div>
                     <div class="quiz-item" data-q="2">
-                        <p class="text-sm font-bold mb-4">Scenario: You are a transfer student. Why is your aid not showing up yet?</p>
+                        <p class="text-sm font-bold mb-4">
+                            <span class="lang-en">Scenario: You are a transfer student. Why is your aid not showing up yet?</span>
+                            <span class="lang-es">Escenario: Eres un estudiante de transferencia. ¿Por qué no aparece tu ayuda todavía?</span>
+                        </p>
                         <div class="grid gap-3">
-                            <div onclick="submitQuiz(2, 0, false)" class="quiz-option p-4 rounded-xl text-xs font-bold">UNT hasn't processed any aid yet.</div>
-                            <div onclick="submitQuiz(2, 1, true)" class="quiz-option p-4 rounded-xl text-xs font-bold">My final transcripts haven't been evaluated.</div>
+                            <div onclick="submitQuiz(2, 0, false)" class="quiz-option p-4 rounded-xl text-xs font-bold">
+                                <span class="lang-en">UNT hasn't processed any aid yet.</span>
+                                <span class="lang-es">UNT no ha procesado ninguna ayuda aún.</span>
+                            </div>
+                            <div onclick="submitQuiz(2, 1, true)" class="quiz-option p-4 rounded-xl text-xs font-bold">
+                                <span class="lang-en">My final transcripts haven't been evaluated.</span>
+                                <span class="lang-es">Mis expedientes académicos finales no han sido evaluados.</span>
+                            </div>
                         </div>
                         <p id="f-2" class="mt-4 text-[11px] font-bold hidden"></p>
                     </div>
@@ -283,21 +358,31 @@
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-2 gap-16">
                 <div>
-                    <h4 class="font-black text-xl mb-6">Contact & Support</h4>
+                    <h4 class="font-black text-xl mb-6">
+                        <span class="lang-en">Contact & Support</span><span class="lang-es">Contacto y Soporte</span>
+                    </h4>
                     <p class="text-sm text-muted leading-relaxed mb-8 max-w-md">
-                        This framework is a direct initiative by your Program Administrator.
+                        <span class="lang-en">This framework is a direct initiative by your Program Administrator.</span>
+                        <span class="lang-es">Este marco es una iniciativa directa de su Administrador de Programa.</span>
                         <br><br>
-                        <strong>Financial Aid Office:</strong> For FAFSA/TASFA specific status.
+                        <strong><span class="lang-en">Financial Aid Office:</span><span class="lang-es">Oficina de Ayuda Financiera:</span></strong> 
+                        <span class="lang-en">For FAFSA/TASFA specific status.</span><span class="lang-es">Para el estado específico de FAFSA/TASFA.</span>
                     </p>
                     <div class="flex flex-wrap gap-4">
-                        <a href="mailto:financialaid@unt.edu" class="px-6 py-3 bg-unt-green text-white font-bold rounded-xl hover:opacity-90 transition-all text-xs">Email Financial Aid</a>
-                        <a href="tel:9405652302" class="px-6 py-3 border border-border-color text-main font-bold rounded-xl hover:bg-white dark:hover:bg-neutral-800 transition-all text-xs">940-565-2302</a>
+                        <a href="mailto:financialaid@unt.edu" class="px-6 py-3 bg-unt-green text-white font-bold rounded-xl hover:opacity-90 transition-all text-xs">
+                            <span class="lang-en">Email Financial Aid</span><span class="lang-es">Email Ayuda Financiera</span>
+                        </a>
+                        <a href="tel:9405652302" class="px-6 py-3 border border-border-color text-main font-bold rounded-xl transition-all text-xs">940-565-2302</a>
                     </div>
                 </div>
                 <div class="flex flex-col md:items-end justify-end">
                     <div class="text-right">
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-3">Principal Author</p>
-                        <p class="text-2xl font-black mb-1">Program Administrator</p>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-3">
+                            <span class="lang-en">Principal Author</span><span class="lang-es">Autor Principal</span>
+                        </p>
+                        <p class="text-2xl font-black mb-1">
+                            <span class="lang-en">Program Administrator</span><span class="lang-es">Administrador del Programa</span>
+                        </p>
                         <p class="font-bold text-unt-green text-sm mb-6">First in Business Initiative</p>
                         <p class="text-[10px] font-bold text-slate-400">University of North Texas | Ryan College of Business</p>
                     </div>
@@ -329,18 +414,21 @@
         function submitQuiz(qNum, optIdx, isCorrect) {
             const feedback = document.getElementById(`f-${qNum}`);
             const options = document.querySelectorAll(`.quiz-item[data-q="${qNum}"] .quiz-option`);
+            const lang = document.getElementById('btn-es').className.includes('text-unt-green') ? 'es' : 'en';
+
             options.forEach(opt => {
                 opt.classList.remove('correct', 'incorrect');
                 opt.style.pointerEvents = 'none';
             });
             feedback.classList.remove('hidden', 'text-unt-green', 'text-red-500');
+            
             if (isCorrect) {
                 options[optIdx].classList.add('correct');
-                feedback.innerText = "CORRECT: You've identified the right administrative step.";
+                feedback.innerText = lang === 'en' ? "CORRECT: You've identified the right administrative step." : "CORRECTO: Has identificado el paso administrativo correcto.";
                 feedback.classList.add('text-unt-green');
             } else {
                 options[optIdx].classList.add('incorrect');
-                feedback.innerText = "INCORRECT: Review the Student Journey section above.";
+                feedback.innerText = lang === 'en' ? "INCORRECT: Review the Student Journey section above." : "INCORRECTO: Revisa la sección del Ciclo de Vida del Estudiante.";
                 feedback.classList.add('text-red-500');
             }
         }
