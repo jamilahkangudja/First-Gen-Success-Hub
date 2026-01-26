@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First in Business | Funding Architecture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --unt-green: #05822e;
+            --unt-dark-green: #035a20;
+            --slate-900: #0f172a;
+            --slate-800: #1e293b;
+            --slate-700: #334155;
+            --error-red: #dc2626;
+            --bg-primary: #ffffff;
+            --card-bg: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #334155;
+            --border-color: #e2e8f0;
+        }
+
+        /* Dark Mode Support & High Contrast Accessibility */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #0a0a0a;
+                --card-bg: #161616;
+                --text-main: #f8fafc;
+                --text-muted: #cbd5e1;
+                --border-color: #262626;
+                --unt-green: #10b981; /* Brighter green for dark mode visibility */
+            }
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            transition: background-color 0.3s ease;
+        }
+
+        .text-muted { color: var(--text-muted); }
+        .text-unt-green { color: var(--unt-green); }
+        .bg-unt-green { background-color: var(--unt-green); }
+
+        .scaffold-card {
+            border-left: 5px solid var(--unt-green);
+            background: var(--card-bg);
+            border-radius: 0 1.5rem 1.5rem 0;
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logic-gate {
+            background: rgba(15, 23, 42, 0.05);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .logic-gate { background: rgba(255, 255, 255, 0.05); }
+        }
+
+        /* Tooltip Architecture */
+        .id-tooltip {
+            position: relative;
+            cursor: help;
+            border-bottom: 2px dotted var(--unt-green);
+            font-weight: 700;
+        }
+
+        .id-tooltip-content {
+            visibility: hidden;
+            width: 300px;
+            background: #1e293b;
+            color: white;
+            padding: 1.25rem;
+            border-radius: 1rem;
+            position: absolute;
+            z-index: 100;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.85rem;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.4);
+            pointer-events: none;
+        }
+
+        .id-tooltip:hover .id-tooltip-content {
+            visibility: visible;
+            opacity: 1;
+            bottom: 125%;
+        }
+
+        /* Quiz UI */
+        .quiz-option {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-main);
+        }
+        .quiz-option:hover { border-color: var(--unt-green); }
+        .quiz-option.correct { border-color: var(--unt-green); background: rgba(16, 185, 129, 0.1); }
+        .quiz-option.incorrect { border-color: var(--error-red); background: rgba(220, 38, 38, 0.1); }
+
+        .lang-es { display: none; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navbar -->
+    <nav class="border-b border-slate-200 dark:border-neutral-800 py-4 sticky top-0 bg-white/95 dark:bg-black/95 backdrop-blur-md z-[100]">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-unt-green p-2 rounded-xl shadow-lg shadow-unt-green/20">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg tracking-tight leading-none">FIRST IN BUSINESS</h1>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mt-1">Program Administrator Framework</p>
+                </div>
+            </div>
+            <div class="flex gap-2 bg-slate-100 dark:bg-neutral-900 p-1 rounded-xl">
+                <button onclick="setLanguage('en')" id="btn-en" class="px-5 py-1.5 text-xs font-bold rounded-lg bg-white dark:bg-neutral-800 shadow-sm text-unt-green transition-all">EN</button>
+                <button onclick="setLanguage('es')" id="btn-es" class="px-5 py-1.5 text-xs font-bold rounded-lg text-slate-500 transition-all">ES</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="py-20 bg-slate-50 dark:bg-neutral-950 border-b border-slate-200 dark:border-neutral-800">
+        <div class="container mx-auto px-6 max-w-5xl text-center md:text-left">
+            <h2 class="text-4xl md:text-6xl font-black text-slate-950 dark:text-white mb-8 tracking-tight leading-[1.1]">
+                <span class="lang-en">The <span class="text-unt-green">Funding Architecture</span> for Business Scholars</span>
+                <span class="lang-es">La <span class="text-unt-green">Arquitectura de Fondos</span> para Académicos</span>
+            </h2>
+            <p class="text-xl text-muted font-medium max-w-3xl leading-relaxed">
+                As your Program Administrator, I have designed this framework to demystify the institutional barriers often faced by first-generation students. Funding your degree is a strategic operation.
+            </p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16 max-w-6xl">
+        
+        <!-- Module: The Student Journey -->
+        <section class="mb-24">
+            <h3 class="text-2xl font-black mb-10 flex items-center gap-3">
+                <span class="w-10 h-10 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black flex items-center justify-center text-sm">01</span>
+                The Student Lifecycle Journey
+            </h3>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Freshman Node -->
+                <div class="p-8 rounded-[2rem] border border-border-color bg-card-bg">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="px-3 py-1 rounded-full bg-unt-green/20 text-unt-green font-bold text-[10px] uppercase">Incoming Freshmen</div>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Navigating the Portal</h4>
+                    <p class="text-sm text-muted mb-6">Your first semester is high-risk. You must set up your <strong>EUID</strong> and <strong>Duo MFA</strong> immediately to access the "To-Do" list in MyUNT. Check for "Verification" flags—failing to resolve these by August will cancel your initial disbursement.</p>
+                    <ul class="text-xs space-y-2 font-semibold">
+                        <li class="flex items-center gap-2">✓ Complete Eagle Scholarship Portal</li>
+                        <li class="flex items-center gap-2">✓ Monitor "Task" Tile in MyUNT</li>
+                        <li class="flex items-center gap-2">✓ Confirm "Census Date" on Academic Calendar</li>
+                    </ul>
+                </div>
+
+                <!-- Continuing/Transfer Node -->
+                <div class="p-8 rounded-[2rem] border border-border-color bg-card-bg">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-500 font-bold text-[10px] uppercase">Continuing & Transfer</div>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Renewal & Transfer Credit</h4>
+                    <p class="text-sm text-muted mb-6">Continuing students must re-apply for scholarships <strong>every year</strong> starting Sept 1st. Transfer students: ensure your final transcripts are received; otherwise, your TEXAS Grant or merit aid won't trigger for the next term.</p>
+                    <ul class="text-xs space-y-2 font-semibold">
+                        <li class="flex items-center gap-2">✓ Maintain 2.0+ GPA for SAP</li>
+                        <li class="flex items-center gap-2">✓ Complete 30 hours per year (TEXAS Grant)</li>
+                        <li class="flex items-center gap-2">✓ Update FAFSA annually in October</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 2: The Hidden Curriculum -->
+        <section class="mb-24">
+            <div class="flex items-center gap-4 mb-12">
+                <span class="bg-unt-green text-white px-4 py-1 rounded-lg font-mono text-xs font-bold">MOD 02</span>
+                <h3 class="text-3xl font-black">Financial Governance</h3>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="scaffold-card p-8">
+                    <h4 class="font-extrabold text-xl mb-4">Verification Audits</h4>
+                    <p class="text-muted text-sm mb-6">
+                        If flagged for <span class="id-tooltip">Verification<span class="id-tooltip-content">An audit confirming your FAFSA/TASFA data. You must provide tax transcripts to MyUNT.</span></span>, your aid is frozen. Freshmen often miss this email because it goes to their UNT email, not personal Gmail.
+                    </p>
+                    <div class="logic-gate text-xs">
+                        <p class="font-bold mb-2">The TASFA Note</p>
+                        <p class="text-muted">TASFA students must mail or hand-deliver documents. Digital submission is not currently available for state-only aid.</p>
+                    </div>
+                </div>
+
+                <div class="scaffold-card p-8">
+                    <h4 class="font-extrabold text-xl mb-4 text-slate-900 dark:text-white">Contractual Acceptance</h4>
+                    <p class="text-muted text-sm mb-6">
+                        Aid is merely an <strong>offer</strong> until you sign the portal.
+                    </p>
+                    <div class="bg-white dark:bg-neutral-900 p-5 rounded-2xl border border-border-color shadow-sm">
+                        <ul class="text-xs space-y-3 font-medium">
+                            <li>1. Go to MyUNT > Financial Aid.</li>
+                            <li>2. Click "Accept/Decline" for 2024.</li>
+                            <li>3. Review Loan Interest Rates first.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="scaffold-card p-8">
+                    <h4 class="font-extrabold text-xl mb-4">The "SAP" Barrier</h4>
+                    <p class="text-muted text-sm mb-6">
+                        <span class="id-tooltip">Satisfactory Progress<span class="id-tooltip-content">2.0 GPA + 67% Completion Rate.</span></span> is the law. Transfer students: your transfer GPA counts toward your first year SAP check at UNT.
+                    </p>
+                    <p class="text-xs font-bold text-error-red">Dropping past the Census Date counts as a "Failed Attempt" in the 67% ratio calculation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Quiz -->
+        <section class="mb-24 grid lg:grid-cols-2 gap-12">
+            <div>
+                <h3 class="text-2xl font-black mb-8 flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-full bg-unt-green text-white flex items-center justify-center text-sm">!</span>
+                    Advanced Literacy
+                </h3>
+                <div class="space-y-6">
+                    <div class="p-6 rounded-2xl border border-border-color bg-card-bg">
+                        <h5 class="font-bold mb-2">Refunds are not "Gifts"</h5>
+                        <p class="text-sm text-muted leading-relaxed">
+                            A refund is the surplus of your aid after tuition. If your aid includes loans, that "refund" check is accruing interest the moment it hits your bank account.
+                        </p>
+                    </div>
+                    <div class="p-6 rounded-2xl border border-border-color bg-card-bg">
+                        <h5 class="font-bold mb-2">Parental Non-Filer Status</h5>
+                        <p class="text-sm text-muted leading-relaxed">
+                            If parents didn't file taxes, don't leave the field blank. Submit the "Parent Non-Filer Statement" to the financial aid portal.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-950 rounded-[2.5rem] p-10 text-white shadow-2xl">
+                <h3 class="text-2xl font-black mb-4">Competency Quiz</h3>
+                <p class="text-slate-400 text-sm mb-8">Scenario-based learning for the Business Scholar.</p>
+                
+                <div class="space-y-10">
+                    <div class="quiz-item" data-q="1">
+                        <p class="text-sm font-bold mb-4">Scenario: You are a continuing student. When should you re-apply for departmental scholarships?</p>
+                        <div class="grid gap-3">
+                            <div onclick="submitQuiz(1, 0, true)" class="quiz-option p-4 rounded-xl text-xs font-bold">Every September 1st for the following year.</div>
+                            <div onclick="submitQuiz(1, 1, false)" class="quiz-option p-4 rounded-xl text-xs font-bold">Only once when I am a freshman.</div>
+                        </div>
+                        <p id="f-1" class="mt-4 text-[11px] font-bold hidden"></p>
+                    </div>
+                    <div class="quiz-item" data-q="2">
+                        <p class="text-sm font-bold mb-4">Scenario: You are a transfer student. Why is your aid not showing up yet?</p>
+                        <div class="grid gap-3">
+                            <div onclick="submitQuiz(2, 0, false)" class="quiz-option p-4 rounded-xl text-xs font-bold">UNT hasn't processed any aid yet.</div>
+                            <div onclick="submitQuiz(2, 1, true)" class="quiz-option p-4 rounded-xl text-xs font-bold">My final transcripts haven't been evaluated.</div>
+                        </div>
+                        <p id="f-2" class="mt-4 text-[11px] font-bold hidden"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-50 dark:bg-neutral-950 border-t border-border-color py-20">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16">
+                <div>
+                    <h4 class="font-black text-xl mb-6">Contact & Support</h4>
+                    <p class="text-sm text-muted leading-relaxed mb-8 max-w-md">
+                        This framework is a direct initiative by your Program Administrator.
+                        <br><br>
+                        <strong>Financial Aid Office:</strong> For FAFSA/TASFA specific status.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="mailto:financialaid@unt.edu" class="px-6 py-3 bg-unt-green text-white font-bold rounded-xl hover:opacity-90 transition-all text-xs">Email Financial Aid</a>
+                        <a href="tel:9405652302" class="px-6 py-3 border border-border-color text-main font-bold rounded-xl hover:bg-white dark:hover:bg-neutral-800 transition-all text-xs">940-565-2302</a>
+                    </div>
+                </div>
+                <div class="flex flex-col md:items-end justify-end">
+                    <div class="text-right">
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-3">Principal Author</p>
+                        <p class="text-2xl font-black mb-1">Program Administrator</p>
+                        <p class="font-bold text-unt-green text-sm mb-6">First in Business Initiative</p>
+                        <p class="text-[10px] font-bold text-slate-400">University of North Texas | Ryan College of Business</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function setLanguage(lang) {
+            const en = document.querySelectorAll('.lang-en');
+            const es = document.querySelectorAll('.lang-es');
+            const btnEn = document.getElementById('btn-en');
+            const btnEs = document.getElementById('btn-es');
+
+            if (lang === 'es') {
+                en.forEach(el => el.style.display = 'none');
+                es.forEach(el => el.style.display = 'inline-block');
+                btnEs.className = "px-5 py-1.5 text-xs font-bold rounded-lg bg-white dark:bg-neutral-800 shadow-sm text-unt-green transition-all";
+                btnEn.className = "px-5 py-1.5 text-xs font-bold rounded-lg text-slate-500 transition-all";
+            } else {
+                es.forEach(el => el.style.display = 'none');
+                en.forEach(el => el.style.display = 'inline-block');
+                btnEn.className = "px-5 py-1.5 text-xs font-bold rounded-lg bg-white dark:bg-neutral-800 shadow-sm text-unt-green transition-all";
+                btnEs.className = "px-5 py-1.5 text-xs font-bold rounded-lg text-slate-500 transition-all";
+            }
+        }
+
+        function submitQuiz(qNum, optIdx, isCorrect) {
+            const feedback = document.getElementById(`f-${qNum}`);
+            const options = document.querySelectorAll(`.quiz-item[data-q="${qNum}"] .quiz-option`);
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+                opt.style.pointerEvents = 'none';
+            });
+            feedback.classList.remove('hidden', 'text-unt-green', 'text-red-500');
+            if (isCorrect) {
+                options[optIdx].classList.add('correct');
+                feedback.innerText = "CORRECT: You've identified the right administrative step.";
+                feedback.classList.add('text-unt-green');
+            } else {
+                options[optIdx].classList.add('incorrect');
+                feedback.innerText = "INCORRECT: Review the Student Journey section above.";
+                feedback.classList.add('text-red-500');
+            }
+        }
+    </script>
+</body>
+</html>
