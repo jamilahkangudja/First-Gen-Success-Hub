@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eagles in Flight | UNT Resource Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --unt-green: #00853E;
+            --unt-dark-green: #006a31;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            line-height: 1.5;
+        }
+
+        .bg-unt-green { background-color: var(--unt-green); }
+        .text-unt-green { color: var(--unt-green); }
+        .border-unt-green { border-color: var(--unt-green); }
+
+        .resource-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .resource-card:hover {
+            border-color: var(--unt-green);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .btn-unt {
+            background-color: var(--unt-green);
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-unt:hover {
+            background-color: var(--unt-dark-green);
+        }
+
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-box {
+            background: rgba(255, 255, 255, 0.15);
+            border-left: 4px solid white;
+        }
+
+        .link-chip {
+            background: white;
+            color: var(--unt-green);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            transition: transform 0.2s;
+        }
+        .link-chip:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Professional Header -->
+    <nav class="bg-white border-b border-gray-200 py-4 shadow-sm">
+        <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <div class="h-10 w-1 bg-unt-green"></div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight uppercase leading-tight">Eagles in Flight</h1>
+                    <p class="text-[10px] text-gray-500 font-semibold uppercase tracking-widest">First in Business Peer Mentorship</p>
+                </div>
+            </div>
+            <div class="hidden md:block">
+                <span class="text-sm font-medium text-gray-600">UNT Resource Portal</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-10">
+        
+        <!-- Weekly Focus & Action -->
+        <section class="mb-12">
+            <div class="bg-unt-green rounded-lg p-8 text-white shadow-md relative overflow-hidden">
+                <div class="relative z-10">
+                    <h2 class="text-xs font-bold uppercase tracking-widest mb-4 opacity-90 border-b border-white/20 pb-2 inline-block">Weekly Focus & Action</h2>
+                    <div id="tip-container">
+                        <p id="quest-text" class="text-2xl font-medium max-w-4xl mb-6">
+                            <!-- Populated via JavaScript -->
+                        </p>
+                        <div class="action-box p-4 rounded-r mb-2">
+                            <p class="text-xs uppercase font-bold tracking-tighter opacity-80 mb-1">Recommended Action:</p>
+                            <p id="action-text" class="text-lg font-normal italic">
+                                <!-- Populated via JavaScript -->
+                            </p>
+                            <div id="tip-link-wrapper">
+                                <!-- Dynamic Link Button populated via JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="generateQuest()" class="mt-6 text-sm font-bold border border-white/40 hover:bg-white hover:text-unt-green px-6 py-2 rounded transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-shuffle"></i> New Weekly Focus
+                    </button>
+                </div>
+                <i class="fa-solid fa-bullseye absolute -bottom-4 -right-4 text-white/10 text-9xl transform -rotate-12"></i>
+            </div>
+        </section>
+
+        <!-- Main Categories -->
+        <h2 class="text-lg font-bold mb-6 text-gray-800 border-b pb-2">Resource Zones</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div class="resource-card p-6 cursor-pointer" onclick="openZone('career')">
+                <div class="text-unt-green text-2xl mb-4"><i class="fa-solid fa-briefcase"></i></div>
+                <h3 class="font-bold text-lg mb-2">Career Runway</h3>
+                <p class="text-gray-600 text-sm mb-4">Resumes, Handshake, and internship prep for business majors.</p>
+                <span class="text-unt-green font-bold text-sm">View Resources &rarr;</span>
+            </div>
+            <div class="resource-card p-6 cursor-pointer" onclick="openZone('edge')">
+                <div class="text-unt-green text-2xl mb-4"><i class="fa-solid fa-award"></i></div>
+                <h3 class="font-bold text-lg mb-2">RCOB EDGE</h3>
+                <p class="text-gray-600 text-sm mb-4">Track professional milestones and build your portfolio in Suitable.</p>
+                <span class="text-unt-green font-bold text-sm">View Suitable &rarr;</span>
+            </div>
+            <div class="resource-card p-6 cursor-pointer" onclick="openZone('academics')">
+                <div class="text-unt-green text-2xl mb-4"><i class="fa-solid fa-graduation-cap"></i></div>
+                <h3 class="font-bold text-lg mb-2">Academic Ace</h3>
+                <p class="text-gray-600 text-sm mb-4">Tutoring, advising, and monthly success sessions.</p>
+                <span class="text-unt-green font-bold text-sm">View Resources &rarr;</span>
+            </div>
+            <div class="resource-card p-6 cursor-pointer" onclick="openZone('wellness')">
+                <div class="text-unt-green text-2xl mb-4"><i class="fa-solid fa-heart"></i></div>
+                <h3 class="font-bold text-lg mb-2">Oxygen Mask</h3>
+                <p class="text-gray-600 text-sm mb-4">Mental health, wellness appointments, and Calm tools.</p>
+                <span class="text-unt-green font-bold text-sm">View Resources &rarr;</span>
+            </div>
+        </div>
+
+        <!-- Quick Links Grid -->
+        <h2 class="text-lg font-bold mb-6 text-gray-800 border-b pb-2">Quick Navigation</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <a href="https://unt.joinhandshake.com" target="_blank" class="bg-white border border-gray-200 p-4 rounded flex items-center gap-3 hover:bg-gray-50 transition-colors">
+                <i class="fa-solid fa-link text-gray-400"></i>
+                <span class="text-sm font-semibold">Handshake Portal</span>
+            </a>
+            <a href="https://app.suitable.co/institution/944/dashboard" target="_blank" class="bg-white border border-gray-200 p-4 rounded flex items-center gap-3 hover:bg-gray-50 transition-colors">
+                <i class="fa-solid fa-mobile-screen-button text-gray-400"></i>
+                <span class="text-sm font-semibold">RCOB EDGE App</span>
+            </a>
+            <a href="https://navigate.unt.edu/" target="_blank" class="bg-white border border-gray-200 p-4 rounded flex items-center gap-3 hover:bg-gray-50 transition-colors">
+                <i class="fa-solid fa-calendar-check text-gray-400"></i>
+                <span class="text-sm font-semibold">Navigate Scheduling</span>
+            </a>
+            <a href="https://library.unt.edu/" target="_blank" class="bg-white border border-gray-200 p-4 rounded flex items-center gap-3 hover:bg-gray-50 transition-colors">
+                <i class="fa-solid fa-book text-gray-400"></i>
+                <span class="text-sm font-semibold">UNT Libraries</span>
+            </a>
+        </div>
+    </main>
+
+    <!-- Modal System -->
+    <div id="zone-modal" class="modal-overlay" onclick="closeModal()">
+        <div class="bg-white rounded shadow-xl max-w-xl w-full mx-4 overflow-hidden" onclick="event.stopPropagation()">
+            <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h2 id="modal-title" class="font-bold text-lg text-gray-800 uppercase tracking-tight"></h2>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-black transition-all">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div id="modal-content" class="p-6"></div>
+            <div class="bg-gray-50 px-6 py-3 border-t border-gray-200 flex justify-end">
+                <button onclick="closeModal()" class="text-sm font-bold text-gray-600 hover:text-black">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const WELLNESS_URL = "https://studentaffairs.unt.edu/student-health-and-wellness-center/appointments.html";
+        const RCOB_FIB_ZOOM = "https://unt.zoom.us/my/rcob.oncall";
+        const HANDSHAKE_URL = "https://unt.joinhandshake.com";
+        const CAREER_EVENTS_URL = "https://careercenter.unt.edu/events/";
+        const CALM_URL = "https://www.calm.com/";
+        const EDGE_SUITABLE_URL = "https://app.suitable.co/institution/944/dashboard";
+        const RESUME_FORMAT_URL = "https://careercenter.unt.edu/resources/business-approved-resume-format/";
+
+        const flightData = [
+            { 
+                tip: "Build a strong first impression online by optimizing your professional presence.", 
+                action: "Draft your LinkedIn headline and summary to highlight your specific goals.",
+                url: "https://www.linkedin.com",
+                label: "Visit LinkedIn"
+            },
+            { 
+                tip: "Utilize professional resume reviews to ensure your skills translate to recruiters.", 
+                action: "Download the approved template and then submit your draft for feedback.",
+                url: RESUME_FORMAT_URL,
+                label: "Get Resume Template"
+            },
+            { 
+                tip: "RCOB Success Sessions provide critical insight into the business world for FIB students.", 
+                action: "Attend the monthly on-call success session via the FIB Zoom link.",
+                url: RCOB_FIB_ZOOM,
+                label: "Join FIB Success Session"
+            },
+            { 
+                tip: "The EDGE app tracks your engagement and professional growth milestones.", 
+                action: "Log into Suitable today and check your current point progress.",
+                url: EDGE_SUITABLE_URL,
+                label: "Open EDGE App"
+            },
+            { 
+                tip: "Academic advisors help you navigate the complex path to graduation and internships.", 
+                action: "Schedule a 1:1 with your advisor to confirm your degree plan.",
+                url: "https://navigate.unt.edu/",
+                label: "Schedule via Navigate"
+            },
+            { 
+                tip: "Self-care and mental health are essential to your persistence as a first-gen student.", 
+                action: "Take 5 minutes for a mindfulness break using the Calm app.",
+                url: CALM_URL,
+                label: "Visit Calm.com"
+            },
+            { 
+                tip: "Connecting with your professor early builds the foundation for your academic success.", 
+                action: "Check your syllabus for office hours and add them to your calendar.",
+                url: "https://canvas.unt.edu",
+                label: "Open Canvas"
+            }
+        ];
+
+        // Function to set a tip (with optional animation)
+        function generateQuest(isInitial = false) {
+            const tipText = document.getElementById('quest-text');
+            const actionText = document.getElementById('action-text');
+            const linkWrapper = document.getElementById('tip-link-wrapper');
+            const container = document.getElementById('tip-container');
+            
+            const randomIndex = Math.floor(Math.random() * flightData.length);
+            const data = flightData[randomIndex];
+            
+            if (isInitial) {
+                // Set content immediately without fade for page load
+                tipText.innerText = `"${data.tip}"`;
+                actionText.innerText = data.action;
+                if(data.url) {
+                    linkWrapper.innerHTML = `
+                        <a href="${data.url}" target="_blank" class="link-chip">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> ${data.label}
+                        </a>`;
+                } else {
+                    linkWrapper.innerHTML = '';
+                }
+            } else {
+                // Animate fade for manual clicks
+                container.style.opacity = '0';
+                setTimeout(() => {
+                    tipText.innerText = `"${data.tip}"`;
+                    actionText.innerText = data.action;
+                    if(data.url) {
+                        linkWrapper.innerHTML = `
+                            <a href="${data.url}" target="_blank" class="link-chip">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> ${data.label}
+                            </a>`;
+                    } else {
+                        linkWrapper.innerHTML = '';
+                    }
+                    container.style.opacity = '1';
+                    container.style.transition = 'opacity 0.3s ease';
+                }, 200);
+            }
+        }
+
+        function openZone(type) {
+            const modal = document.getElementById('zone-modal');
+            const content = document.getElementById('modal-content');
+            const title = document.getElementById('modal-title');
+            modal.style.display = 'flex';
+
+            if(type === 'career') {
+                title.innerText = "Career Runway";
+                content.innerHTML = `
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-unt-green pl-4">
+                            <h4 class="font-bold text-gray-800">1. Opportunities & Handshake</h4>
+                            <p class="text-xs text-gray-600 mb-3">Job postings and internships specifically for UNT students.</p>
+                            <a href="${HANDSHAKE_URL}" target="_blank" class="btn-unt inline-block text-xs">Access Handshake</a>
+                        </div>
+                        <div class="border-l-4 border-unt-green pl-4">
+                            <h4 class="font-bold text-gray-800">2. Workshops & Events</h4>
+                            <p class="text-xs text-gray-600 mb-3">View the Career Center calendar for internship fairs and networking.</p>
+                            <a href="${CAREER_EVENTS_URL}" target="_blank" class="btn-unt inline-block text-xs">View Calendar</a>
+                        </div>
+                        <div class="border-l-4 border-unt-green pl-4">
+                            <h4 class="font-bold text-gray-800">3. Approved Resume Format</h4>
+                            <p class="text-xs text-gray-600 mb-3">Download the business-approved template and follow the instructions.</p>
+                            <a href="${RESUME_FORMAT_URL}" target="_blank" class="btn-unt inline-block text-xs">Get Template</a>
+                        </div>
+                        <div class="border-l-4 border-unt-green pl-4">
+                            <h4 class="font-bold text-gray-800">4. Request a Review</h4>
+                            <p class="text-xs text-gray-600 mb-3">Once your draft is ready, get expert feedback from the Career Center.</p>
+                            <a href="https://careercenter.unt.edu/resources/resume-review-request-form/" target="_blank" class="text-unt-green font-bold text-[10px] hover:underline uppercase">Submit for Review</a>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'edge') {
+                title.innerText = "RCOB EDGE (Suitable)";
+                content.innerHTML = `
+                    <p class="text-gray-600 mb-6 text-sm">The Ryan College of Business EDGE program (powered by Suitable) tracks your professional development.</p>
+                    <div class="bg-gray-50 p-6 rounded border border-gray-200 text-center">
+                        <i class="fa-solid fa-mobile-screen text-4xl text-unt-green mb-4"></i>
+                        <h4 class="font-bold text-gray-800 mb-2">Track Your Milestones</h4>
+                        <p class="text-xs text-gray-600 mb-6">Complete activities, earn badges, and build your digital portfolio to show recruiters your "EDGE."</p>
+                        <a href="${EDGE_SUITABLE_URL}" target="_blank" class="btn-unt block w-full text-center text-sm">Open Suitable Dashboard</a>
+                    </div>
+                `;
+            } else if (type === 'academics') {
+                title.innerText = "Academic Ace";
+                content.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 p-4 border border-gray-200 rounded">
+                            <h4 class="font-bold text-gray-800 text-sm mb-1">FIB Success Sessions</h4>
+                            <p class="text-xs text-gray-600 mb-4">Monthly RCOB Advising sessions for FIB students.</p>
+                            <a href="${RCOB_FIB_ZOOM}" target="_blank" class="btn-unt block text-center text-xs">Join Success Session (Zoom)</a>
+                        </div>
+                        <div class="bg-white p-4 border border-gray-100 rounded">
+                            <h4 class="font-bold text-gray-800 text-sm mb-1">UNT Learning Center</h4>
+                            <p class="text-xs text-gray-600 mb-4">Free tutoring for business core courses.</p>
+                            <a href="https://learningcenter.unt.edu/" target="_blank" class="text-unt-green font-bold text-xs uppercase hover:underline">View Schedules</a>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'wellness') {
+                title.innerText = "Oxygen Mask";
+                content.innerHTML = `
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-unt-green pl-4">
+                            <h4 class="font-bold text-gray-800 text-sm">Appointments</h4>
+                            <p class="text-xs text-gray-600 mb-3">Schedule health or counseling appointments.</p>
+                            <a href="${WELLNESS_URL}" target="_blank" class="btn-unt inline-block text-xs">Book Appointment</a>
+                        </div>
+                        <div class="border-l-4 border-blue-400 pl-4">
+                            <h4 class="font-bold text-gray-800 text-sm">Calm App & Website</h4>
+                            <p class="text-xs text-gray-600 mb-3">Practice mindfulness with meditation and sleep tools.</p>
+                            <a href="${CALM_URL}" target="_blank" class="text-blue-600 font-bold text-xs uppercase hover:underline">Visit Calm.com</a>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('zone-modal').style.display = 'none';
+        }
+
+        // Run the randomizer on load
+        window.onload = function() {
+            generateQuest(true);
+        };
+    </script>
+</body>
+</html>
