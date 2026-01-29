@@ -1,253 +1,274 @@
-import React, { useState } from 'react';
-import { 
-  Users, 
-  Map as MapIcon, 
-  Info, 
-  Award, 
-  Camera, 
-  ChevronRight, 
-  Calendar, 
-  Clock, 
-  MapPin,
-  GlassWater,
-  Briefcase,
-  ArrowUp
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholars Celebration Planner</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React and ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel for JSX transformation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50">
+    <div id="root"></div>
 
-const App = () => {
-  const [selectedZone, setSelectedZone] = useState('101');
-  const [showFurniture, setShowFurniture] = useState(false);
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        // Lucide Icon Component Wrapper
+        const Icon = ({ name, size = 16, className = "" }) => {
+            const [iconSvg, setIconSvg] = useState("");
+            
+            useEffect(() => {
+                // Initialize lucide icons after render
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            }, []);
 
-  const eventDetails = {
-    title: "First in Business Scholars Celebration",
-    date: "April 10, 2026",
-    time: "5:00 PM - 7:00 PM",
-    attendance: "60+ Guests Target",
-    theme: "Elegant Mocktail-style Reception"
-  };
+            return <i data-lucide={name} style={{ width: size, height: size }} className={className}></i>;
+        };
 
-  const zones = {
-    '101': {
-      name: "Atrium Hub (101)",
-      type: "Reception Site",
-      details: [
-        "Primary site for 'Mocktail-style' reception & hors d'oeuvres.",
-        "Paired Stations: Both East & West walls feature combined Food & Mocktail stations.",
-        "South Wall: Featured Balloon Arch & Photo Station (UNT Backdrop).",
-        "Western Corridor: Career Center entrance and main vertical circulation.",
-        "Central Core: Completely open floor plan to facilitate high-volume mingling."
-      ],
-      supplies: ["Tablecloths", "Balloon Arch", "LED tea lights", "QR code table tents", "UNT Backdrop", "Drink Dispensers"]
-    },
-    '170': {
-      name: "Room 170",
-      type: "Ceremony Option A",
-      capacity: "104 Seats",
-      details: [
-        "Directly adjacent to the atrium for seamless transition.",
-        "Tiered classroom seating (intimate awards feel).",
-        "Shelter Area: Optimal for awards slideshow and speech visibility.",
-        "Seating Capacity: 104 guests."
-      ]
-    },
-    '180': {
-      name: "Lecture Hall (180)",
-      type: "Ceremony Option B",
-      capacity: "214 Seats",
-      details: [
-        "Largest venue option available on the floor.",
-        "Professional stage and podium setup for formal honors.",
-        "Highly recommended for large family groups and full scholar cohorts.",
-        "Seating Capacity: 214 guests."
-      ]
-    }
-  };
+        const App = () => {
+            const [selectedZone, setSelectedZone] = useState('101');
+            const [showFurniture, setShowFurniture] = useState(false);
 
-  return (
-    <div className="min-h-screen bg-slate-50 font-sans p-4 md:p-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Header Section */}
-        <header className="mb-8 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 text-blue-600 font-bold text-sm uppercase tracking-wider mb-1">
-              <Award size={16} />
-              <span>Event Proposal</span>
-            </div>
-            <h1 className="text-3xl font-black text-slate-900">{eventDetails.title}</h1>
-            <div className="flex flex-wrap gap-4 mt-3 text-slate-600 text-sm">
-              <div className="flex items-center gap-1"><Calendar size={14}/> {eventDetails.date}</div>
-              <div className="flex items-center gap-1"><Clock size={14}/> {eventDetails.time}</div>
-              <div className="flex items-center gap-1"><Users size={14}/> {eventDetails.attendance}</div>
-            </div>
-          </div>
-          <div className="bg-slate-900 text-white px-6 py-3 rounded-xl shadow-lg text-center border-b-4 border-blue-600">
-            <div className="text-xs opacity-70 uppercase font-bold tracking-widest">Venue Status</div>
-            <div className="text-xl font-bold">Lvl 1 Confirmed</div>
-          </div>
-        </header>
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, [selectedZone, showFurniture]);
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Interactive Map Area */}
-          <div className="lg:col-span-8 space-y-4">
-            <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-              <div className="relative w-full aspect-[16/10] bg-white rounded-xl overflow-hidden border border-slate-200 shadow-inner">
-                
-                {/* Career Center (West of Atrium) */}
-                <div className="absolute top-[20%] left-[2%] w-[18%] h-[50%] bg-slate-100 border-2 border-slate-200 rounded flex flex-col items-center justify-center opacity-60">
-                  <Briefcase size={20} className="text-slate-400 mb-1" />
-                  <span className="text-[10px] font-bold text-slate-500 uppercase">Career Center</span>
-                </div>
+            const eventDetails = {
+                title: "First in Business Scholars Celebration",
+                date: "April 10, 2026",
+                time: "5:00 PM - 7:00 PM",
+                attendance: "60+ Guests Target",
+                theme: "Elegant Mocktail-style Reception"
+            };
 
-                {/* Stairs and Elevator (Between Atrium and 170) */}
-                <div className="absolute top-[30%] left-[55%] w-[10%] h-[25%] flex flex-col gap-1">
-                  <div className="flex-1 bg-slate-200 border border-slate-300 rounded flex items-center justify-center">
-                    <span className="text-[8px] font-bold text-slate-600">ELEV</span>
-                  </div>
-                  <div className="flex-1 bg-slate-200 border border-slate-300 rounded flex flex-col items-center justify-center">
-                    <ArrowUp size={10} className="text-slate-600" />
-                    <span className="text-[8px] font-bold text-slate-600">STAIRS</span>
-                  </div>
-                </div>
-                
-                {/* 101 Atrium */}
-                <div 
-                  onClick={() => setSelectedZone('101')}
-                  className={`absolute cursor-pointer transition-all duration-300 rounded-lg flex flex-col items-center justify-center border-2
-                    ${selectedZone === '101' ? 'bg-blue-500/10 border-blue-600 shadow-lg' : 'bg-blue-50/40 border-blue-200 hover:bg-blue-100/50'}`}
-                  style={{ top: '30%', left: '22%', width: '31%', height: '40%' }}
-                >
-                  <span className="font-bold text-blue-900 uppercase text-xs sm:text-base">101 Atrium</span>
-                  <span className="text-[10px] sm:text-xs text-blue-700">Reception Hub</span>
-                  
-                  {showFurniture && (
-                    <div className="absolute inset-0 pointer-events-none">
-                      <div className="absolute left-0 top-1/4 h-10 w-2 bg-red-500 rounded-r shadow-sm"></div>
-                      <div className="absolute left-3 top-1/4 text-[7px] text-red-700 font-bold uppercase">Mocktail</div>
-                      <div className="absolute left-0 top-[55%] h-12 w-2 bg-green-500 rounded-r shadow-sm"></div>
-                      <div className="absolute left-3 top-[55%] text-[7px] text-green-700 font-bold uppercase">Food</div>
-                      <div className="absolute right-0 top-1/4 h-10 w-2 bg-red-500 rounded-l shadow-sm"></div>
-                      <div className="absolute right-3 top-1/4 text-[7px] text-red-700 font-bold text-right uppercase">Mocktail</div>
-                      <div className="absolute right-0 top-[55%] h-12 w-2 bg-green-500 rounded-l shadow-sm"></div>
-                      <div className="absolute right-3 top-[55%] text-[7px] text-green-700 font-bold text-right uppercase">Food</div>
-                      <div className="absolute bottom-0 left-1/4 right-1/4 h-2 bg-purple-500 rounded-t shadow-sm"></div>
-                      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[7px] text-purple-700 font-black text-center leading-none">
-                        PHOTO STATION &<br/>BALLOON ARCH
-                      </div>
+            const zones = {
+                '101': {
+                    name: "Atrium Hub (101)",
+                    type: "Reception Site",
+                    details: [
+                        "Primary site for 'Mocktail-style' reception & hors d'oeuvres.",
+                        "Paired Stations: Both East & West walls feature combined Food & Mocktail stations.",
+                        "South Wall: Featured Balloon Arch & Photo Station (UNT Backdrop).",
+                        "Western Corridor: Career Center entrance and main vertical circulation.",
+                        "Central Core: Completely open floor plan to facilitate high-volume mingling."
+                    ],
+                    supplies: ["Tablecloths", "Balloon Arch", "LED tea lights", "QR code table tents", "UNT Backdrop", "Drink Dispensers"]
+                },
+                '170': {
+                    name: "Room 170",
+                    type: "Ceremony Option A",
+                    capacity: "104 Seats",
+                    details: [
+                        "Directly adjacent to the atrium for seamless transition.",
+                        "Tiered classroom seating (intimate awards feel).",
+                        "Shelter Area: Optimal for awards slideshow and speech visibility.",
+                        "Seating Capacity: 104 guests."
+                    ]
+                },
+                '180': {
+                    name: "Lecture Hall (180)",
+                    type: "Ceremony Option B",
+                    capacity: "214 Seats",
+                    details: [
+                        "Largest venue option available on the floor.",
+                        "Professional stage and podium setup for formal honors.",
+                        "Highly recommended for large family groups and full scholar cohorts.",
+                        "Seating Capacity: 214 guests."
+                    ]
+                }
+            };
+
+            return (
+                <div className="min-h-screen p-4 md:p-8">
+                    <div className="max-w-6xl mx-auto">
+                        {/* Header Section */}
+                        <header className="mb-8 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <div className="flex items-center gap-2 text-blue-600 font-bold text-sm uppercase tracking-wider mb-1">
+                                    <Icon name="award" />
+                                    <span>Event Proposal</span>
+                                </div>
+                                <h1 className="text-3xl font-black text-slate-900">{eventDetails.title}</h1>
+                                <div className="flex flex-wrap gap-4 mt-3 text-slate-600 text-sm">
+                                    <div className="flex items-center gap-1"><Icon name="calendar" size={14}/> {eventDetails.date}</div>
+                                    <div className="flex items-center gap-1"><Icon name="clock" size={14}/> {eventDetails.time}</div>
+                                    <div className="flex items-center gap-1"><Icon name="users" size={14}/> {eventDetails.attendance}</div>
+                                </div>
+                            </div>
+                            <div className="bg-slate-900 text-white px-6 py-3 rounded-xl shadow-lg text-center border-b-4 border-blue-600">
+                                <div className="text-xs opacity-70 uppercase font-bold tracking-widest">Venue Status</div>
+                                <div className="text-xl font-bold">Lvl 1 Confirmed</div>
+                            </div>
+                        </header>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                            {/* Interactive Map Area */}
+                            <div className="lg:col-span-8 space-y-4">
+                                <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                                    <div className="relative w-full aspect-[16/10] bg-white rounded-xl overflow-hidden border border-slate-200 shadow-inner">
+                                        
+                                        {/* Career Center (West of Atrium) */}
+                                        <div className="absolute top-[20%] left-[2%] w-[18%] h-[50%] bg-slate-100 border-2 border-slate-200 rounded flex flex-col items-center justify-center opacity-60">
+                                            <Icon name="briefcase" size={20} className="text-slate-400 mb-1" />
+                                            <span className="text-[10px] font-bold text-slate-500 uppercase">Career Center</span>
+                                        </div>
+
+                                        {/* Stairs and Elevator */}
+                                        <div className="absolute top-[30%] left-[55%] w-[10%] h-[25%] flex flex-col gap-1">
+                                            <div className="flex-1 bg-slate-200 border border-slate-300 rounded flex items-center justify-center">
+                                                <span className="text-[8px] font-bold text-slate-600">ELEV</span>
+                                            </div>
+                                            <div className="flex-1 bg-slate-200 border border-slate-300 rounded flex flex-col items-center justify-center">
+                                                <Icon name="arrow-up" size={10} className="text-slate-600" />
+                                                <span className="text-[8px] font-bold text-slate-600">STAIRS</span>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* 101 Atrium */}
+                                        <div 
+                                            onClick={() => setSelectedZone('101')}
+                                            className={`absolute cursor-pointer transition-all duration-300 rounded-lg flex flex-col items-center justify-center border-2
+                                                ${selectedZone === '101' ? 'bg-blue-500/10 border-blue-600 shadow-lg' : 'bg-blue-50/40 border-blue-200 hover:bg-blue-100/50'}`}
+                                            style={{ top: '30%', left: '22%', width: '31%', height: '40%' }}
+                                        >
+                                            <span className="font-bold text-blue-900 uppercase text-xs sm:text-base">101 Atrium</span>
+                                            <span className="text-[10px] sm:text-xs text-blue-700">Reception Hub</span>
+                                            
+                                            {showFurniture && (
+                                                <div className="absolute inset-0 pointer-events-none">
+                                                    <div className="absolute left-0 top-1/4 h-10 w-2 bg-red-500 rounded-r shadow-sm"></div>
+                                                    <div className="absolute left-3 top-1/4 text-[7px] text-red-700 font-bold uppercase">Mocktail</div>
+                                                    <div className="absolute left-0 top-[55%] h-12 w-2 bg-green-500 rounded-r shadow-sm"></div>
+                                                    <div className="absolute left-3 top-[55%] text-[7px] text-green-700 font-bold uppercase">Food</div>
+                                                    <div className="absolute right-0 top-1/4 h-10 w-2 bg-red-500 rounded-l shadow-sm"></div>
+                                                    <div className="absolute right-3 top-1/4 text-[7px] text-red-700 font-bold text-right uppercase">Mocktail</div>
+                                                    <div className="absolute right-0 top-[55%] h-12 w-2 bg-green-500 rounded-l shadow-sm"></div>
+                                                    <div className="absolute right-3 top-[55%] text-[7px] text-green-700 font-bold text-right uppercase">Food</div>
+                                                    <div className="absolute bottom-0 left-1/4 right-1/4 h-2 bg-purple-500 rounded-t shadow-sm"></div>
+                                                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[7px] text-purple-700 font-black text-center leading-none">
+                                                        PHOTO STATION &<br/>BALLOON ARCH
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Restrooms */}
+                                        <div className="absolute top-[68%] left-[32.5%] w-[20%] h-[5%] bg-amber-50 border border-amber-200 rounded text-[10px] text-amber-700 font-bold flex items-center justify-center gap-1 shadow-sm">
+                                            <Icon name="map-pin" size={10} /> RESTROOMS
+                                        </div>
+
+                                        {/* 170 Classroom */}
+                                        <div 
+                                            onClick={() => setSelectedZone('170')}
+                                            className={`absolute cursor-pointer transition-all duration-300 rounded-lg flex flex-col items-center justify-center border-2
+                                                ${selectedZone === '170' ? 'bg-purple-500/10 border-purple-600 shadow-lg' : 'bg-purple-50/40 border-purple-200 hover:bg-purple-100/50'}`}
+                                            style={{ top: '30%', left: '68%', width: '20%', height: '25%' }}
+                                        >
+                                            <span className="font-bold text-purple-900 text-xs sm:text-base">170</span>
+                                            <span className="text-[10px] text-purple-700 font-bold tracking-tighter">CAP: 104</span>
+                                        </div>
+
+                                        {/* 180 Lecture Hall */}
+                                        <div 
+                                            onClick={() => setSelectedZone('180')}
+                                            className={`absolute cursor-pointer transition-all duration-300 rounded-lg flex flex-col items-center justify-center border-2
+                                                ${selectedZone === '180' ? 'bg-purple-500/10 border-purple-600 shadow-lg' : 'bg-purple-50/40 border-purple-200 hover:bg-purple-100/50'}`}
+                                            style={{ top: '75%', left: '32.5%', width: '20%', height: '18%' }}
+                                        >
+                                            <span className="font-bold text-purple-900 text-xs sm:text-base">180</span>
+                                            <span className="text-[10px] text-purple-700 font-bold tracking-tighter uppercase">CAP: 214</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-4 flex flex-wrap justify-between items-center gap-4">
+                                        <button 
+                                            onClick={() => setShowFurniture(!showFurniture)}
+                                            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-sm
+                                                ${showFurniture ? 'bg-blue-600 text-white ring-4 ring-blue-100' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+                                        >
+                                            {showFurniture ? "Hide Layout Detail" : "Show Planning Layout"}
+                                        </button>
+                                        <div className="flex gap-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                            <span className="flex items-center gap-1"><div className="w-2 h-2 bg-blue-300 rounded-full"></div> Reception</span>
+                                            <span className="flex items-center gap-1"><div className="w-2 h-2 bg-purple-300 rounded-full"></div> Ceremony</span>
+                                            <span className="flex items-center gap-1"><div className="w-2 h-2 bg-amber-200 rounded-full"></div> Amenities</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Brief */}
+                                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-sm">
+                                    <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+                                        <Icon name="glass-water" className="text-blue-500"/> Layout Logic
+                                    </h3>
+                                    <p className="text-slate-600 leading-relaxed">
+                                        The Atrium is framed by the Career Center to the West and Room 170 to the East. Circulation is centered around the elevator and stairs, allowing guests to move naturally from the reception paired stations toward the ceremony rooms. Restrooms are centrally located north of Room 180.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Right Selection Panel */}
+                            <div className="lg:col-span-4 space-y-6">
+                                <div className="bg-slate-900 text-white p-6 rounded-2xl shadow-xl h-full border border-slate-800">
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className="p-2 bg-blue-500/20 rounded-lg">
+                                           <Icon name="map" className="text-blue-400" />
+                                        </div>
+                                        <h2 className="text-xl font-bold">{zones[selectedZone].name}</h2>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <div>
+                                            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 border-b border-slate-800 pb-2">Layout Logistics</h4>
+                                            <ul className="space-y-4">
+                                                {zones[selectedZone].details.map((item, i) => (
+                                                    <li key={i} className="flex gap-3 text-sm leading-snug group">
+                                                        <Icon name="chevron-right" size={16} className="text-blue-400 shrink-0 group-hover:translate-x-1 transition-transform" />
+                                                        <span className="text-slate-300">{item}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+
+                                        {selectedZone === '101' ? (
+                                            <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+                                                <h4 className="text-xs font-bold text-blue-400 uppercase mb-3">Materials Needed</h4>
+                                                <div className="flex flex-wrap gap-2 text-[10px]">
+                                                    {zones['101'].supplies.map((s, i) => (
+                                                        <span key={i} className="bg-slate-700 px-2 py-1 rounded border border-slate-600 text-slate-200">{s}</span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="bg-blue-600/20 p-4 rounded-xl border border-blue-500/30 flex justify-between items-center">
+                                                <span className="text-xs font-bold uppercase tracking-widest">Max Capacity</span>
+                                                <span className="text-lg font-black text-blue-400">{zones[selectedZone].capacity}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  )}
                 </div>
+            );
+        };
 
-                {/* Restrooms (North of 180 / South of Atrium Path) */}
-                <div className="absolute top-[68%] left-[32.5%] w-[20%] h-[5%] bg-amber-50 border border-amber-200 rounded text-[10px] text-amber-700 font-bold flex items-center justify-center gap-1 shadow-sm">
-                  <MapPin size={10} /> RESTROOMS
-                </div>
-
-                {/* 170 Classroom */}
-                <div 
-                  onClick={() => setSelectedZone('170')}
-                  className={`absolute cursor-pointer transition-all duration-300 rounded-lg flex flex-col items-center justify-center border-2
-                    ${selectedZone === '170' ? 'bg-purple-500/10 border-purple-600 shadow-lg' : 'bg-purple-50/40 border-purple-200 hover:bg-purple-100/50'}`}
-                  style={{ top: '30%', left: '68%', width: '20%', height: '25%' }}
-                >
-                  <span className="font-bold text-purple-900 text-xs sm:text-base">170</span>
-                  <span className="text-[10px] text-purple-700 font-bold tracking-tighter">CAP: 104</span>
-                </div>
-
-                {/* 180 Lecture Hall */}
-                <div 
-                  onClick={() => setSelectedZone('180')}
-                  className={`absolute cursor-pointer transition-all duration-300 rounded-lg flex flex-col items-center justify-center border-2
-                    ${selectedZone === '180' ? 'bg-purple-500/10 border-purple-600 shadow-lg' : 'bg-purple-50/40 border-purple-200 hover:bg-purple-100/50'}`}
-                  style={{ top: '75%', left: '32.5%', width: '20%', height: '18%' }}
-                >
-                  <span className="font-bold text-purple-900 text-xs sm:text-base">180</span>
-                  <span className="text-[10px] text-purple-700 font-bold tracking-tighter uppercase">CAP: 214</span>
-                </div>
-              </div>
-
-              <div className="mt-4 flex flex-wrap justify-between items-center gap-4">
-                <button 
-                  onClick={() => setShowFurniture(!showFurniture)}
-                  className={`px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-sm
-                    ${showFurniture ? 'bg-blue-600 text-white ring-4 ring-blue-100' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
-                >
-                  {showFurniture ? "Hide Layout Detail" : "Show Planning Layout"}
-                </button>
-                <div className="flex gap-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                  <span className="flex items-center gap-1"><div className="w-2 h-2 bg-blue-300 rounded-full"></div> Reception</span>
-                  <span className="flex items-center gap-1"><div className="w-2 h-2 bg-purple-300 rounded-full"></div> Ceremony</span>
-                  <span className="flex items-center gap-1"><div className="w-2 h-2 bg-amber-200 rounded-full"></div> Amenities</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Brief */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-              <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
-                <GlassWater size={20} className="text-blue-500"/> Layout Logic
-              </h3>
-              <p className="text-slate-600 leading-relaxed text-sm">
-                The Atrium is framed by the Career Center to the West and Room 170 to the East. Circulation is centered around the elevator and stairs, allowing guests to move naturally from the reception paired stations toward the ceremony rooms. Restrooms are centrally located north of Room 180, providing easy access for guests transitioning from the Mocktail reception to the awards ceremony.
-                Each side of the Atrium is a mirror of the other. By pairing mocktail stations with hors d'oeuvres on both the East and West walls, we ensure that guests have immediate access to refreshments while keeping the center and south wall clear for traffic and photography.
-              </p>
-            </div>
-          </div>
-
-          {/* Right Selection Panel */}
-          <div className="lg:col-span-4 space-y-6">
-            <div className="bg-slate-900 text-white p-6 rounded-2xl shadow-xl h-full border border-slate-800">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-blue-500/20 rounded-lg">
-                   <MapIcon className="text-blue-400" />
-                </div>
-                <h2 className="text-xl font-bold">{zones[selectedZone].name}</h2>
-              </div>
-
-              <div className="space-y-6">
-                <div>
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 border-b border-slate-800 pb-2">Layout Logistics</h4>
-                  <ul className="space-y-4">
-                    {zones[selectedZone].details.map((item, i) => (
-                      <li key={i} className="flex gap-3 text-sm leading-snug group">
-                        <ChevronRight size={16} className="text-blue-400 shrink-0 group-hover:translate-x-1 transition-transform" />
-                        <span className="text-slate-300">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {selectedZone === '101' ? (
-                  <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
-                    <h4 className="text-xs font-bold text-blue-400 uppercase mb-3">Materials Needed</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {zones['101'].supplies.map((s, i) => (
-                        <span key={i} className="bg-slate-700 text-[10px] px-2 py-1 rounded border border-slate-600 text-slate-200">{s}</span>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="bg-blue-600/20 p-4 rounded-xl border border-blue-500/30 flex justify-between items-center">
-                    <span className="text-xs font-bold uppercase tracking-widest">Max Capacity</span>
-                    <span className="text-lg font-black text-blue-400">{zones[selectedZone].capacity}</span>
-                  </div>
-                )}
-
-                <div className="pt-4 mt-6 border-t border-slate-800">
-                  <div className="flex items-center gap-2 text-blue-400 mb-2">
-                    <Camera size={18} />
-                    <span className="text-sm font-bold tracking-tight">Guest Circulation</span>
-                  </div>
-                  <p className="text-xs text-slate-400 italic leading-relaxed">
-                    Positioning the reception in 101 ensures guests pass the photo station and mocktail bar before moving south towards the restrooms and the larger ceremony hall (180).
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default App;
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
