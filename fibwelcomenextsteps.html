@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First in Business: Welcome & Next Steps</title>
+
+<style>
+:root{
+  --bg:#f2f2f7;
+  --bubble:#ffffff;
+  --primary:#0a7aff;
+  --secondary:#e5e5ea;
+  --text:#1c1c1e;
+  --muted:#6e6e73;
+  --radius:18px;
+  --shadow:0 4px 18px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;
+  background:var(--bg);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+.phone{
+  width:100%;
+  max-width:390px;
+  height:100vh;
+  max-height:844px;
+  background:var(--bg);
+  border-radius:36px;
+  box-shadow:0 30px 80px rgba(0,0,0,.25);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+@media(max-width:480px){
+  .phone{border-radius:0;max-height:none}
+}
+.status-bar{
+  padding:12px 18px 6px;
+  font-size:12px;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+}
+.header{
+  padding:6px 18px 12px;
+  text-align:center;
+  font-weight:600;
+  border-bottom:1px solid #ddd;
+}
+.chat{
+  flex:1;
+  padding:18px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.bubble{
+  max-width:85%;
+  padding:12px 14px;
+  border-radius:var(--radius);
+  background:var(--bubble);
+  box-shadow:var(--shadow);
+  font-size:14px;
+}
+.system{align-self:flex-start;border-top-left-radius:6px}
+.user{align-self:flex-end;background:var(--primary);color:#fff;border-top-right-radius:6px}
+.actions{
+  padding:12px 18px 18px;
+  border-top:1px solid #ddd;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.helper{
+  font-size:12px;
+  color:var(--muted);
+}
+.btn{
+  padding:12px;
+  border-radius:14px;
+  font-size:14px;
+  border:none;
+  cursor:pointer;
+}
+.primary{background:var(--primary);color:#fff}
+.secondary{background:var(--secondary);color:var(--text)}
+input,select,textarea{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  font-size:14px;
+}
+textarea{resize:none}
+.certificate{
+  background:#fff;
+  padding:20px;
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  font-size:13px;
+  text-align:center;
+}
+.meta{text-align:left;margin-top:12px}
+.meta a{color:var(--primary);text-decoration:none}
+</style>
+</head>
+
+<body>
+<div class="phone">
+  <div class="status-bar"><span>9:41</span><span>LTE ▪︎ ▪︎ ▪︎</span></div>
+  <div class="header">First in Business</div>
+  <div class="chat" id="chat"></div>
+  <div class="actions" id="actions"></div>
+</div>
+
+<script>
+const chat=document.getElementById('chat');
+const actions=document.getElementById('actions');
+
+let state={
+  name:'',
+  heard:'',
+  referrer:'',
+  interest:'',
+  needs:'',
+  notes:''
+};
+
+function system(msg){
+  const d=document.createElement('div');
+  d.className='bubble system';
+  d.innerHTML=msg;
+  chat.appendChild(d);
+  chat.scrollTop=chat.scrollHeight;
+}
+function user(msg){
+  const d=document.createElement('div');
+  d.className='bubble user';
+  d.textContent=msg;
+  chat.appendChild(d);
+  chat.scrollTop=chat.scrollHeight;
+}
+function setActions(arr){
+  actions.innerHTML='';
+  arr.forEach(a=>actions.appendChild(a));
+}
+function btn(label,handler,type='primary'){
+  const b=document.createElement('button');
+  b.className=`btn ${type}`;
+  b.textContent=label;
+  b.onclick=handler;
+  return b;
+}
+
+/* FLOW */
+
+function start(){
+  system("Hey — welcome to First in Business 👋");
+  setActions([btn("Continue",step2)]);
+}
+
+function step2(){
+  system("This experience helps us get you oriented and helps me prepare for your 1:1.");
+  setActions([btn("Continue",askName)]);
+}
+
+function askName(){
+  system("What name would you like us to use?");
+  const input=document.createElement('input');
+  input.placeholder="Full Name";
+
+  const helper=document.createElement('div');
+  helper.className='helper';
+  helper.textContent="Type your name, then press Enter or click Continue.";
+
+  function submit(){
+    if(!input.value.trim()) return;
+    state.name=input.value.trim();
+    user(state.name);
+    snapshotHeard();
+  }
+
+  input.onkeydown=e=>{ if(e.key==="Enter") submit(); };
+
+  setActions([input,helper,btn("Continue",submit)]);
+}
+
+/* SNAPSHOT FLOW (unchanged) */
+
+function snapshotHeard(){
+  system("How did you first hear about First in Business?");
+  const s=document.createElement('select');
+  [
+    "Select one",
+    "First-Year Orientation / FTIC programming",
+    "Faculty or Staff referral",
+    "Another student",
+    "Advisor or Academic Coach",
+    "Email or campus announcement",
+    "I don’t remember / multiple ways"
+  ].forEach(o=>{const op=document.createElement('option');op.text=o;s.add(op)});
+  setActions([s,btn("Continue",()=>{
+    state.heard=s.value;
+    user(s.value);
+    if(s.value.includes("referral")||s.value==="Another student"){
+      snapshotReferrer();
+    }else{
+      snapshotInterest();
+    }
+  })]);
+}
+
+function snapshotReferrer(){
+  system("Who referred you? (If applicable)");
+  const input=document.createElement('input');
+  input.placeholder="Name (optional)";
+
+  const helper=document.createElement('div');
+  helper.className='helper';
+  helper.textContent="If you’re not sure, you can leave this blank.";
+
+  function submit(){
+    state.referrer=input.value||"Not specified";
+    if(input.value) user(input.value);
+    snapshotInterest();
+  }
+
+  input.onkeydown=e=>{ if(e.key==="Enter") submit(); };
+
+  setActions([input,helper,btn("Continue",submit)]);
+}
+
+function snapshotInterest(){
+  system("At this point, how would you describe your interest in First in Business?");
+  const s=document.createElement('select');
+  [
+    "Select one",
+    "I’m already committed and participating",
+    "I’m interested and exploring",
+    "I’m still deciding",
+    "I was encouraged to look into it"
+  ].forEach(o=>{const op=document.createElement('option');op.text=o;s.add(op)});
+  setActions([s,btn("Continue",()=>{
+    state.interest=s.value;
+    user(s.value);
+    snapshotNeeds();
+  })]);
+}
+
+function snapshotNeeds(){
+  system("What would be most helpful for you this semester?");
+  const s=document.createElement('select');
+  [
+    "Select one",
+    "Time management",
+    "Understanding expectations",
+    "Career exploration",
+    "Confidence / belonging",
+    "Academic habits"
+  ].forEach(o=>{const op=document.createElement('option');op.text=o;s.add(op)});
+  setActions([s,btn("Continue",()=>{
+    state.needs=s.value;
+    user(s.value);
+    snapshotNotes();
+  })]);
+}
+
+function snapshotNotes(){
+  system("Is there anything else you’d like me to know before we meet? (Optional)");
+  const ta=document.createElement('textarea');
+  ta.rows=3;
+  ta.placeholder="You can share context, questions, or concerns here.";
+
+  const helper=document.createElement('div');
+  helper.className='helper';
+  helper.textContent="Type a few sentences. Press Enter or click Continue when you’re done.";
+
+  function submit(){
+    state.notes=ta.value;
+    if(ta.value) user("Shared additional notes");
+    schedule();
+  }
+
+  ta.onkeydown=e=>{ if(e.key==="Enter") submit(); };
+
+  setActions([ta,helper,btn("Continue",submit)]);
+}
+
+/* SCHEDULING + EMAIL */
+
+function schedule(){
+  system("Let’s schedule your 1:1. This will open in a new tab.");
+  setActions([btn("Schedule My 1:1",()=>{
+    window.open(
+      "https://outlook.office.com/book/FirstinBusinessMeetings@myunt.onmicrosoft.com/?ismsaljsauthenabled",
+      "_blank"
+    );
+    confirmScheduled();
+  })]);
+}
+
+function confirmScheduled(){
+  system("Once you’ve scheduled your meeting, come back here to continue.");
+  setActions([btn("I’ve scheduled my 1:1",sendSnapshot,"secondary")]);
+}
+
+function sendSnapshot(){
+  const body=encodeURIComponent(
+`First in Business Snapshot
+
+Name: ${state.name}
+Heard about program: ${state.heard}
+Referred by: ${state.referrer||"N/A"}
+Interest level: ${state.interest}
+Current needs: ${state.needs}
+Additional notes: ${state.notes||"None"}`
+  );
+  system("Please send your snapshot so I can review it before we meet.");
+  setActions([
+    btn("Send Snapshot",()=>{
+      window.location=`mailto:jamilah.kangudja@unt.edu?subject=First in Business Snapshot – ${state.name}&body=${body}`;
+    }),
+    btn("I’ve sent it",certificate,"secondary")
+  ]);
+}
+
+/* CERTIFICATE (UPDATED LANGUAGE) */
+
+function certificate(){
+  const now=new Date();
+  system(`
+  <div class="certificate">
+    <h2>First in Business</h2>
+    <p><strong>Welcome & Next Steps Confirmation</strong></p>
+    <p>This confirms that <strong>${state.name}</strong> completed the First in Business: Welcome & Next Steps experience.</p>
+    <div class="meta">
+      <p><strong>Date:</strong> ${now.toLocaleDateString()}</p>
+      <p><strong>Time:</strong> ${now.toLocaleTimeString()}</p>
+      <p><strong>Email:</strong> <a href="mailto:jamilah.kangudja@unt.edu">jamilah.kangudja@unt.edu</a></p>
+      <p><strong>Office:</strong> <a href="tel:19405653384">940-565-3384</a> · BLB 024</p>
+      <p><strong>Instagram:</strong> <a href="https://instagram.com/unt.fib" target="_blank">@unt.fib</a></p>
+    </div>
+  </div>
+  <p><strong>Please take a screenshot of this screen and save it for your records.</strong><br>
+  This confirmation will be referenced later as you complete your full First in Business orientation and program setup.</p>
+  `);
+  setActions([btn("Finish",()=>{})]);
+}
+
+start();
+</script>
+</body>
+</html>
