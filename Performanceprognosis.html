@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>First in Business – Performance Prognosis</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --card:#f9fafb;
+      --btn:#111827;
+      --btnText:#ffffff;
+      --ok:#065f46;
+      --warn:#92400e;
+      --bad:#991b1b;
+      --info:#1f2937;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.4}
+    .wrap{max-width:980px;margin:0 auto;padding:20px}
+    header{padding:10px 0 0}
+    h1{margin:0 0 6px;font-size:28px}
+    p{margin:8px 0}
+    .sub{color:var(--muted)}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media (min-width:900px){
+      .grid{grid-template-columns:1fr 1fr}
+    }
+    label{display:block;font-weight:600;font-size:14px;margin:0 0 6px}
+    input[type="text"], input[type="email"], select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:#fff}
+    .section-title{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+    .section-title h2{margin:0;font-size:18px}
+    .section-title .hint{color:var(--muted);font-size:13px}
+    .q{padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff}
+    .q strong{display:block;font-size:14px;margin-bottom:8px}
+    .tf{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+    .tf label{display:inline-flex;gap:8px;align-items:center;font-weight:500;margin:0}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    button{border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer}
+    .primary{background:var(--btn);color:var(--btnText)}
+    .secondary{background:#fff;border:1px solid var(--line);color:var(--text)}
+    .tiny{font-size:12px;color:var(--muted)}
+    .result{border-radius:14px;border:1px solid var(--line);padding:14px;background:#fff}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;font-weight:700;font-size:12px}
+    .pill.ok{background:#ecfdf5;color:var(--ok);border:1px solid #a7f3d0}
+    .pill.warn{background:#fffbeb;color:var(--warn);border:1px solid #fde68a}
+    .pill.bad{background:#fef2f2;color:var(--bad);border:1px solid #fecaca}
+    .pill.info{background:#f3f4f6;color:var(--info);border:1px solid var(--line)}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    ul{margin:10px 0 0 18px}
+    .divider{height:1px;background:var(--line);margin:12px 0}
+    .notice{font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>First in Business – Performance Prognosis</h1>
+      <p class="sub">Answer <strong>True</strong> or <strong>False</strong> based on where you are right now. There are no penalties for your answers. This helps us support you.</p>
+    </header>
+
+    <div class="card">
+      <div class="section-title">
+        <h2>Student Information</h2>
+        <span class="hint">This will be included in the message you send.</span>
+      </div>
+      <div class="grid" style="margin-top:10px;">
+        <div>
+          <label for="studentName">Your name</label>
+          <input id="studentName" type="text" placeholder="First Last" />
+        </div>
+        <div>
+          <label for="studentEmail">Your email</label>
+          <input id="studentEmail" type="email" placeholder="name@my.unt.edu" />
+        </div>
+        <div>
+          <label for="major">Major</label>
+          <input id="major" type="text" placeholder="Business major" />
+        </div>
+        <div>
+          <label for="year">Current year in college</label>
+          <select id="year">
+            <option value="">Select one</option>
+            <option>1st year</option>
+            <option>2nd year</option>
+            <option>3rd year</option>
+            <option>4th year</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <p class="tiny" style="margin-top:10px;">Privacy note: your results are not sent anywhere automatically. When you click <em>Send Results</em>, your email app will open so you can review the message before sending.</p>
+    </div>
+
+    <form id="prognosisForm">
+      <div class="card">
+        <div class="section-title">
+          <h2>Section 1: Academic & Structural Foundations</h2>
+          <span class="hint">Graduation timeline readiness</span>
+        </div>
+        <div id="section1" class="grid" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <h2>Section 2: Engagement & Self-Management</h2>
+          <span class="hint">Habits that predict follow-through</span>
+        </div>
+        <div id="section2" class="grid" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <h2>Section 3: Career Awareness & Readiness</h2>
+          <span class="hint">Career direction + internship timing</span>
+        </div>
+        <div id="section3" class="grid" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <h2>Section 4: Experience & Exposure</h2>
+          <span class="hint">Career center + networking + resume basics</span>
+        </div>
+        <div id="section4" class="grid" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <h2>Section 5: Ownership & Commitment Mindset</h2>
+          <span class="hint">Responsibility and consistency</span>
+        </div>
+        <div id="section5" class="grid" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <h2>Results</h2>
+          <span class="hint">Your score and recommended EDGE starter pathway</span>
+        </div>
+        <div class="btnrow">
+          <button type="button" class="primary" id="calcBtn">Calculate Results</button>
+          <button type="button" class="secondary" id="copyBtn" disabled>Copy Results</button>
+          <button type="button" class="secondary" id="sendBtn" disabled>Send Results</button>
+          <button type="reset" class="secondary" id="resetBtn">Reset</button>
+        </div>
+
+        <div style="margin-top:12px;" class="result" id="resultsBox" aria-live="polite">
+          <div class="pill info">Not calculated yet</div>
+          <p class="notice">Complete the questions and click <strong>Calculate Results</strong>.</p>
+        </div>
+      </div>
+    </form>
+
+    <p class="tiny">Program contact: <span class="mono">jamilah.kangudja@unt.edu</span></p>
+  </div>
+
+  <script>
+    // =====================
+    // Configuration
+    // =====================
+    const ADMIN_EMAIL = "jamilah.kangudja@unt.edu";
+
+    // With 27 True/False items, suggested bands:
+    // 0–9 (Foundations Builder), 10–17 (Structured Momentum), 18–23 (Career Explorer), 24–27 (Career Accelerator)
+    const BANDS = [
+      { min: 0,  max: 9,  key: "A", label: "Foundations Builder", pill: "bad",
+        edge: [
+          "Complete: Orientation Experience Set",
+          "Complete: Academic Success Experience Set",
+          "Complete: Advising / Success touchpoint (if available)",
+          "Start a weekly EDGE check-in habit"
+        ],
+        focus: [
+          "Clarify your graduation timeline (degree plan / audit)",
+          "Understand credit hours and pacing",
+          "Use EDGE weekly so nothing piles up"
+        ]
+      },
+      { min: 10, max: 17, key: "B", label: "Structured Momentum", pill: "warn",
+        edge: [
+          "Complete: Orientation + Academic Success Experience Sets",
+          "Complete: 1 Social Connection experience",
+          "Complete: 1 Career Center touchpoint"
+        ],
+        focus: [
+          "Build consistency (follow-through without reminders)",
+          "Log activities quickly (same week)",
+          "Ask questions early when stuck"
+        ]
+      },
+      { min: 18, max: 23, key: "C", label: "Career Explorer", pill: "ok",
+        edge: [
+          "Complete: Resume or LinkedIn review experience",
+          "Attend: 1 networking / employer event",
+          "Complete: 1 career readiness workshop"
+        ],
+        focus: [
+          "Internship timing and strategy",
+          "Translate experiences into skills",
+          "Choose events intentionally"
+        ]
+      },
+      { min: 24, max: 27, key: "D", label: "Career Accelerator", pill: "ok",
+        edge: [
+          "Complete: Advanced career experiences (as available)",
+          "Pursue: Leadership / mentoring opportunities",
+          "Attend: Higher-impact employer engagement"
+        ],
+        focus: [
+          "Competitive internships",
+          "Leadership pipelines",
+          "Offer readiness and salary awareness"
+        ]
+      }
+    ];
+
+    // =====================
+    // Question Bank
+    // =====================
+    const QUESTIONS = {
+      section1: [
+        "I know my current cumulative GPA.",
+        "I understand the GPA requirements for my major.",
+        "I regularly check my degree plan or audit.",
+        "I know who my academic advisor is and how to contact them.",
+        "I feel confident that I am on track to graduate on time.",
+        "I typically enroll in 15 or more credit hours each fall and spring semester.",
+        "I understand how the number of credit hours I take each semester affects my graduation timeline."
+      ],
+      section2: [
+        "I check my UNT email at least once a day.",
+        "I follow through on tasks even when reminders are not sent.",
+        "I regularly attend events or programs outside of class.",
+        "I reflect on experiences to understand what I gained from them.",
+        "I am comfortable asking for help when I am unsure what to do next."
+      ],
+      section3: [
+        "I know what types of careers are common for my major.",
+        "I have explored at least one career path I’m interested in.",
+        "I understand what employers typically look for in interns.",
+        "I know when I should begin applying for internships.",
+        "I feel confident talking about my skills and experiences."
+      ],
+      section4: [
+        "I have attended a career-related event (career fair, workshop, employer event).",
+        "I have a resume that has been reviewed by a professional.",
+        "I have connected with at least one professional or mentor.",
+        "I understand how extracurricular involvement supports career goals.",
+        "I have begun building experiences outside the classroom."
+      ],
+      section5: [
+        "I take responsibility for tracking my own progress.",
+        "I understand that programs support effort, not replace it.",
+        "I am willing to consistently engage, even when things feel busy.",
+        "I understand that outcomes improve with sustained participation.",
+        "I am ready to treat First in Business as a commitment, not an extra."
+      ]
+    };
+
+    // =====================
+    // Render Questions
+    // =====================
+    function makeQuestionEl(id, text){
+      const div = document.createElement('div');
+      div.className = 'q';
+      div.innerHTML = `
+        <strong>${text}</strong>
+        <div class="tf" role="group" aria-label="${escapeHtml(text)}">
+          <label><input type="radio" name="${id}" value="true" required> True</label>
+          <label><input type="radio" name="${id}" value="false" required> False</label>
+        </div>
+      `;
+      return div;
+    }
+
+    function escapeHtml(str){
+      return str.replace(/[&<>"]+/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m] || m));
+    }
+
+    function renderAll(){
+      const sections = ["section1","section2","section3","section4","section5"];
+      sections.forEach((secKey) => {
+        const mount = document.getElementById(secKey);
+        mount.innerHTML = '';
+        QUESTIONS[secKey].forEach((qText, idx) => {
+          const qId = `${secKey}_q${idx+1}`;
+          mount.appendChild(makeQuestionEl(qId, qText));
+        });
+      });
+    }
+
+    renderAll();
+
+    // =====================
+    // Scoring + Category
+    // =====================
+    function getSelectedValue(name){
+      const el = document.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+
+    function computeScore(){
+      const answers = [];
+      let total = 0;
+      const secKeys = Object.keys(QUESTIONS);
+
+      secKeys.forEach((secKey) => {
+        QUESTIONS[secKey].forEach((qText, idx) => {
+          const qId = `${secKey}_q${idx+1}`;
+          const val = getSelectedValue(qId);
+          if (val === null) throw new Error('Please answer all questions before calculating.');
+          const isTrue = val === 'true';
+          if (isTrue) total += 1;
+          answers.push({ section: secKey, id: qId, text: qText, value: isTrue });
+        });
+      });
+
+      const max = answers.length;
+      const band = BANDS.find(b => total >= b.min && total <= b.max) || BANDS[BANDS.length-1];
+      return { total, max, band, answers };
+    }
+
+    function buildSummary(data){
+      const { total, max, band, answers } = data;
+      const falseItems = answers.filter(a => !a.value).map(a => a.text);
+      const truePct = Math.round((total / max) * 100);
+
+      return {
+        header: `Score: ${total} / ${max} (${truePct}%)`,
+        category: `${band.key} – ${band.label}`,
+        falseItems,
+        edge: band.edge,
+        focus: band.focus
+      };
+    }
+
+    function setResultsUI(summary){
+      const box = document.getElementById('resultsBox');
+      box.innerHTML = `
+        <div class="pill ${summary.category.startsWith('A') ? 'bad' : summary.category.startsWith('B') ? 'warn' : 'ok'}">${escapeHtml(summary.category)}</div>
+        <p><strong>${escapeHtml(summary.header)}</strong></p>
+        <div class="divider"></div>
+        <p><strong>Recommended EDGE Starter Pathway</strong></p>
+        <ul>
+          ${summary.edge.map(x => `<li>${escapeHtml(x)}</li>`).join('')}
+        </ul>
+        <div class="divider"></div>
+        <p><strong>Focus Areas (what to prioritize)</strong></p>
+        <ul>
+          ${summary.focus.map(x => `<li>${escapeHtml(x)}</li>`).join('')}
+        </ul>
+        ${summary.falseItems.length ? `
+          <div class="divider"></div>
+          <p><strong>Items marked “False” (topics to review)</strong></p>
+          <ul>
+            ${summary.falseItems.slice(0, 10).map(x => `<li>${escapeHtml(x)}</li>`).join('')}
+          </ul>
+          ${summary.falseItems.length > 10 ? `<p class="notice">Showing first 10. Your full list will be included if you send results.</p>` : ''}
+        ` : `
+          <div class="divider"></div>
+          <p class="notice">You marked all items as True. Great. Your next step is choosing high-impact experiences and staying consistent.</p>
+        `}
+      `;
+    }
+
+    function buildEmailBody(student, summary, data){
+      const lines = [];
+      lines.push("First in Business – Performance Prognosis Results");
+      lines.push("");
+      lines.push(`Student: ${student.name || "(not provided)"}`);
+      lines.push(`Student Email: ${student.email || "(not provided)"}`);
+      lines.push(`Major: ${student.major || "(not provided)"}`);
+      lines.push(`Year: ${student.year || "(not provided)"}`);
+      lines.push("");
+      lines.push(summary.header);
+      lines.push(`Category: ${summary.category}`);
+      lines.push("");
+      lines.push("Recommended EDGE Starter Pathway:");
+      summary.edge.forEach(x => lines.push(`- ${x}`));
+      lines.push("");
+      lines.push("Focus Areas:");
+      summary.focus.forEach(x => lines.push(`- ${x}`));
+      lines.push("");
+      lines.push("Answers:");
+
+      // Include all answers for clarity
+      data.answers.forEach((a, idx) => {
+        lines.push(`${idx+1}. ${a.value ? "True" : "False"} – ${a.text}`);
+      });
+
+      return lines.join("\n");
+    }
+
+    function buildMailtoLink(to, subject, body){
+      const params = new URLSearchParams({ subject, body });
+      return `mailto:${to}?${params.toString()}`;
+    }
+
+    // =====================
+    // Buttons
+    // =====================
+    const calcBtn = document.getElementById('calcBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const sendBtn = document.getElementById('sendBtn');
+    const form = document.getElementById('prognosisForm');
+
+    let lastComputed = null;
+    let lastSummary = null;
+
+    function getStudentInfo(){
+      return {
+        name: document.getElementById('studentName').value.trim(),
+        email: document.getElementById('studentEmail').value.trim(),
+        major: document.getElementById('major').value.trim(),
+        year: document.getElementById('year').value
+      };
+    }
+
+    calcBtn.addEventListener('click', () => {
+      try{
+        // Check required student fields lightly (not strict)
+        const data = computeScore();
+        const summary = buildSummary(data);
+        setResultsUI(summary);
+        lastComputed = data;
+        lastSummary = summary;
+        copyBtn.disabled = false;
+        sendBtn.disabled = false;
+      } catch(e){
+        alert(e.message);
+      }
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      if(!lastComputed || !lastSummary) return;
+      const student = getStudentInfo();
+      const body = buildEmailBody(student, lastSummary, lastComputed);
+      try{
+        await navigator.clipboard.writeText(body);
+        alert('Results copied. You can paste them into an email or document.');
+      } catch {
+        alert('Copy failed. You can still use Send Results to email your responses.');
+      }
+    });
+
+    sendBtn.addEventListener('click', () => {
+      if(!lastComputed || !lastSummary) return;
+      const student = getStudentInfo();
+      const subject = 'FIB Performance Prognosis Results';
+      const body = buildEmailBody(student, lastSummary, lastComputed);
+      const link = buildMailtoLink(ADMIN_EMAIL, subject, body);
+      window.location.href = link;
+    });
+
+    form.addEventListener('reset', () => {
+      lastComputed = null;
+      lastSummary = null;
+      copyBtn.disabled = true;
+      sendBtn.disabled = true;
+      const box = document.getElementById('resultsBox');
+      box.innerHTML = `
+        <div class="pill info">Not calculated yet</div>
+        <p class="notice">Complete the questions and click <strong>Calculate Results</strong>.</p>
+      `;
+    });
+  </script>
+</body>
+</html>
